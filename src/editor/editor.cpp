@@ -1,0 +1,189 @@
+#include "editor.h"
+
+#include <QPainter>
+#include <QTextBlock>
+
+Editor::Editor(QWidget *parent) : QPlainTextEdit(parent)
+{
+    init();
+}
+
+Editor::Editor(const QString &text, const QString &path, QWidget *parent)
+{
+    init();
+}
+
+QString Editor::getPath() const
+{
+
+}
+
+void Editor::setPath(const QString &newPath)
+{
+
+}
+
+int Editor::lineNumberWidth()
+{
+    int digits = 1;
+    int max = qMax(1, blockCount());
+    while(max >= 10)
+    {
+        max /= 10;
+        ++digits;
+    }
+    int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
+    return space;
+}
+
+void Editor::lineNumberAreaPaint(QPaintEvent *event)
+{
+    QPainter painter(lineNumberArea);
+    QColor bgColor = palette().color(QPalette::Window);
+    QColor textColor = palette().color(QPalette::WindowText);
+    painter.fillRect(event->rect(), bgColor);
+    QTextBlock block = firstVisibleBlock();
+    int blockNumber = block.blockNumber();
+    int top = qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
+    int bottom = top + qRound(blockBoundingRect(block).height());
+    while (block.isValid() && top <= event->rect().bottom())
+    {
+        if (block.isVisible() && bottom >= event->rect().top())
+        {
+            QString number = QString::number(blockNumber + 1);
+            painter.setPen(textColor);
+            painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(), Qt::AlignRight, number);
+        }
+        block = block.next();
+        top = bottom;
+        bottom = top + qRound(blockBoundingRect(block).height());
+        ++blockNumber;
+    }
+}
+
+bool Editor::getSaved() const
+{
+
+}
+
+void Editor::setSaved(bool newSaved)
+{
+
+}
+
+bool Editor::isSaved()
+{
+
+}
+
+QString Editor::getName() const
+{
+
+}
+
+void Editor::setName(const QString &newName)
+{
+
+}
+
+void Editor::find(const QString &text)
+{
+    if(text.isEmpty()) return;
+    if(!QPlainTextEdit::find(text))
+    {
+        moveCursor(QTextCursor::Start);
+        QPlainTextEdit::find(text);
+    }
+}
+
+void Editor::replace(const QString &findText, const QString &replaceText)
+{
+    if(findText.isEmpty()) return;
+    QTextCursor cursor = textCursor();
+    if(cursor.hasSelection() && cursor.selectedText() == findText)
+        cursor.insertText(replaceText);
+    find(findText);
+}
+
+void Editor::clearSearchFormatting()
+{
+
+}
+
+void Editor::increaseFontSize()
+{
+
+}
+
+void Editor::decreaseFontSize()
+{
+
+}
+
+void Editor::setFontSize(int size)
+{
+
+}
+
+void Editor::resizeEvent(QResizeEvent *event)
+{
+    QPlainTextEdit::resizeEvent(event);
+    QRect cr = contentsRect();
+    lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberWidth(), cr.height()));
+}
+
+void Editor::wheelEvent(QWheelEvent *event)
+{
+    if(event->modifiers() == Qt::ControlModifier)
+    {
+        if(event->angleDelta().y() > 0)
+            increaseFontSize();
+        else
+            decreaseFontSize();
+        event->accept();
+    }
+    else
+        QPlainTextEdit::wheelEvent(event);
+}
+
+void Editor::init()
+{
+    lineNumberArea = new LineNumberArea(this);
+    connect(this, &Editor::blockCountChanged, this, &Editor::updateLineNumberWidth);
+    connect(this, &Editor::updateRequest, this, &Editor::updateLineNumber);
+    connect(this, &Editor::textChanged, this, [this]{setSaved(false);});
+    updateLineNumberWidth(0);
+    defaultFormat = textCursor().charFormat();
+}
+
+void Editor::updateLineNumberWidth(int count)
+{
+    setViewportMargins(lineNumberWidth(), 0, 0, 0);
+}
+
+void Editor::updateLineNumber(const QRect &rect, int dy)
+{
+    if(dy)
+        lineNumberArea->scroll(0, dy);
+    else
+        lineNumberArea->update(0, rect.y(), lineNumberArea->width(), rect.height());
+    if(rect.contains(viewport()->rect()))
+        updateLineNumberWidth(0);
+}
+
+
+
+Editor::LineNumberArea::LineNumberArea(Editor *parent) : QWidget(parent), textEditor(parent)
+{
+
+}
+
+QSize Editor::LineNumberArea::sizeHint() const
+{
+    return QSize(textEditor->lineNumberWidth(), 0);
+}
+
+void Editor::LineNumberArea::paintEvent(QPaintEvent *event)
+{
+    textEditor->lineNumberAreaPaint(event);
+}
