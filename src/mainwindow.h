@@ -1,7 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "editor/editor.h"
 #include <QMainWindow>
+#include <md4c-html.h>
+#include <md4c.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,8 +20,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void handleTabChanged(int index);
+    void handleTextChanged();
+
 private:
+    QMap<Editor*, QString> m_htmlCache;
+    Editor* m_currentEditor = nullptr;
     Ui::MainWindow *ui;
     void addEditor();
+    QString markdownToHtml(const QString& markdown);
 };
 #endif // MAINWINDOW_H

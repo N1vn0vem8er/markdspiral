@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.19)
 project(markdspiral LANGUAGES CXX)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets WebEngineWidgets)
+find_library(MD4C_HTML_LIB NAMES md4c-html)
 
 qt_standard_project_setup()
 
@@ -12,6 +13,7 @@ qt_add_executable(markdspiral
     src/mainwindow.h
     src/mainwindow.ui
     src/editor/editor.h src/editor/editor.cpp
+    src/editor/markdownhighlighter.h src/editor/markdownhighlighter.cpp
 )
 
 include_directories(src)
@@ -21,6 +23,7 @@ target_link_libraries(markdspiral
         Qt::Core
         Qt::Widgets
         Qt::WebEngineWidgets
+        ${MD4C_HTML_LIB}
 )
 
 include(GNUInstallDirs)

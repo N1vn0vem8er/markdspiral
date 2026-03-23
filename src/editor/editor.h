@@ -1,6 +1,7 @@
 #ifndef EDITOR_H
 #define EDITOR_H
 
+#include "editor/markdownhighlighter.h"
 #include <QPlainTextEdit>
 
 class Editor : public QPlainTextEdit
@@ -50,6 +51,7 @@ private:
     void updateLineNumberWidth(int count);
     void updateLineNumber(const QRect &rect, int dy);
     QTextCharFormat defaultFormat;
+    MarkdownHighlighter* highlighter;
 
 signals:
     void fontSizeChanged(int size);

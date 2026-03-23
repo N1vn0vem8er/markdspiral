@@ -1,4 +1,5 @@
 #include "editor.h"
+#include "editor/markdownhighlighter.h"
 
 #include <QPainter>
 #include <QTextBlock>
@@ -112,12 +113,20 @@ void Editor::clearSearchFormatting()
 
 void Editor::increaseFontSize()
 {
-
+    QFont f = font();
+    f.setPointSize(f.pointSize() + 1);
+    setFont(f);
+    updateLineNumberWidth(0);
 }
 
 void Editor::decreaseFontSize()
 {
-
+    QFont f = font();
+    if (f.pointSize() > 4) {
+        f.setPointSize(f.pointSize() - 1);
+        setFont(f);
+        updateLineNumberWidth(0);
+    }
 }
 
 void Editor::setFontSize(int size)
@@ -148,6 +157,7 @@ void Editor::wheelEvent(QWheelEvent *event)
 
 void Editor::init()
 {
+    highlighter = new MarkdownHighlighter(this->document());
     lineNumberArea = new LineNumberArea(this);
     connect(this, &Editor::blockCountChanged, this, &Editor::updateLineNumberWidth);
     connect(this, &Editor::updateRequest, this, &Editor::updateLineNumber);
