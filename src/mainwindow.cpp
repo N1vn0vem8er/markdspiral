@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionClose, &QAction::triggered, this, [this]{handleCloseTab(ui->tabWidget->currentIndex());});
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::saveFile);
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveFileAs);
+    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::openNewEditor);
     handleTabChanged(ui->tabWidget->currentIndex());
 }
 
@@ -106,6 +107,7 @@ void MainWindow::saveFile()
                 file.write(editor->toPlainText().toUtf8());
                 file.close();
                 editor->setSaved(true);
+                ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), file.fileName());
             }
         }
         else
@@ -131,4 +133,10 @@ void MainWindow::saveFileAs()
             }
         }
     }
+}
+
+void MainWindow::openNewEditor()
+{
+    addEditor(QString(), tr("New File"), QString());
+    ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
 }

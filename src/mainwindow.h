@@ -27,6 +27,7 @@ private slots:
     void openFile();
     void saveFile();
     void saveFileAs();
+    void openNewEditor();
 
 private:
     QMap<Editor*, QString> m_htmlCache;
