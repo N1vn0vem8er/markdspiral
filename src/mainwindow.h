@@ -23,6 +23,7 @@ public:
 private slots:
     void handleTabChanged(int index);
     void handleTextChanged();
+    void handleCloseTab(int index);
 
 private:
     QMap<Editor*, QString> m_htmlCache;

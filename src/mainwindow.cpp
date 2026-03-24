@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     addEditor();
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::handleTabChanged);
+    connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::handleCloseTab);
     handleTabChanged(ui->tabWidget->currentIndex());
 }
 
@@ -57,4 +58,15 @@ void MainWindow::handleTextChanged()
     QString html = markdownToHtml(m_currentEditor->toPlainText());
     m_htmlCache[m_currentEditor] = html;
     ui->webEngineView->setHtml(html);
+}
+
+void MainWindow::handleCloseTab(int index)
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->widget(index));
+    if(editor)
+    {
+        m_htmlCache.remove(editor);
+        editor->deleteLater();
+    }
+    ui->tabWidget->removeTab(index);
 }
