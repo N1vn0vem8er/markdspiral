@@ -32,7 +32,7 @@ private:
     QMap<Editor*, QString> m_htmlCache;
     Editor* m_currentEditor = nullptr;
     Ui::MainWindow *ui;
-    void addEditor(const QString &text, const QString &name);
+    void addEditor(const QString &text, const QString &name, const QString &path);
     QString markdownToHtml(const QString& markdown);
 };
 #endif // MAINWINDOW_H

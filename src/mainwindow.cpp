@@ -23,9 +23,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::addEditor(const QString& text, const QString& name)
+void MainWindow::addEditor(const QString& text, const QString& name, const QString& path)
 {
     Editor* editor = new Editor(ui->tabWidget);
+    editor->setPath(path);
     editor->setPlainText(text);
     ui->tabWidget->addTab(editor, name);
 }
@@ -86,17 +87,48 @@ void MainWindow::openFile()
         QFile file(path);
         if(file.open(QIODevice::ReadOnly))
         {
-            addEditor(file.readAll(), file.fileName());
+            addEditor(file.readAll(), file.fileName(), path);
         }
     }
 }
 
 void MainWindow::saveFile()
 {
-
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        const QString path = editor->getPath();
+        if(!path.isEmpty())
+        {
+            QFile file(path);
+            if(file.open(QIODevice::WriteOnly))
+            {
+                file.write(editor->toPlainText().toUtf8());
+                file.close();
+                editor->setSaved(true);
+            }
+        }
+        else
+            saveFileAs();
+    }
 }
 
 void MainWindow::saveFileAs()
 {
-
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        const QString path = QFileDialog::getSaveFileName(this, tr("Save As"), QDir::homePath());
+        if(!path.isEmpty())
+        {
+            QFile file(path);
+            if(file.open(QIODevice::WriteOnly))
+            {
+                file.write(editor->toPlainText().toUtf8());
+                file.close();
+                editor->setSaved(true);
+                editor->setPath(path);
+            }
+        }
+    }
 }
