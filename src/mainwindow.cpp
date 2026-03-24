@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveFileAs);
     connect(ui->actionNew, &QAction::triggered, this, &MainWindow::openNewEditor);
     handleTabChanged(ui->tabWidget->currentIndex());
+    ui->splitter->setStretchFactor(1, 1);
 }
 
 MainWindow::~MainWindow()
