@@ -2,14 +2,19 @@
 #include "editor/editor.h"
 #include "ui_mainwindow.h"
 
+#include <QFileDialog>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    addEditor();
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::handleTabChanged);
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::handleCloseTab);
+    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
+    connect(ui->actionClose, &QAction::triggered, this, [this]{handleCloseTab(ui->tabWidget->currentIndex());});
+    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::saveFile);
+    connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveFileAs);
     handleTabChanged(ui->tabWidget->currentIndex());
 }
 
@@ -18,9 +23,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::addEditor()
+void MainWindow::addEditor(const QString& text, const QString& name)
 {
-    ui->tabWidget->addTab(new Editor(ui->tabWidget), "editor");
+    Editor* editor = new Editor(ui->tabWidget);
+    editor->setPlainText(text);
+    ui->tabWidget->addTab(editor, name);
 }
 
 QString MainWindow::markdownToHtml(const QString &markdown)
@@ -38,7 +45,7 @@ QString MainWindow::markdownToHtml(const QString &markdown)
 
 void MainWindow::handleTabChanged(int index)
 {
-    if (index == -1) return;
+    if(index == -1) return;
     if(m_currentEditor)
         disconnect(m_currentEditor, &Editor::textChanged, this, &MainWindow::handleTextChanged);
     m_currentEditor = qobject_cast<Editor*>(ui->tabWidget->widget(index));
@@ -69,4 +76,27 @@ void MainWindow::handleCloseTab(int index)
         editor->deleteLater();
     }
     ui->tabWidget->removeTab(index);
+}
+
+void MainWindow::openFile()
+{
+    const QString path = QFileDialog::getOpenFileName(this, tr("Open"), QDir::homePath());
+    if(!path.isEmpty())
+    {
+        QFile file(path);
+        if(file.open(QIODevice::ReadOnly))
+        {
+            addEditor(file.readAll(), file.fileName());
+        }
+    }
+}
+
+void MainWindow::saveFile()
+{
+
+}
+
+void MainWindow::saveFileAs()
+{
+
 }

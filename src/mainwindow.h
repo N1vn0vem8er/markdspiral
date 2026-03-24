@@ -24,12 +24,15 @@ private slots:
     void handleTabChanged(int index);
     void handleTextChanged();
     void handleCloseTab(int index);
+    void openFile();
+    void saveFile();
+    void saveFileAs();
 
 private:
     QMap<Editor*, QString> m_htmlCache;
     Editor* m_currentEditor = nullptr;
     Ui::MainWindow *ui;
-    void addEditor();
+    void addEditor(const QString &text, const QString &name);
     QString markdownToHtml(const QString& markdown);
 };
 #endif // MAINWINDOW_H
