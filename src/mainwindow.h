@@ -28,6 +28,15 @@ private slots:
     void saveFile();
     void saveFileAs();
     void openNewEditor();
+    void undo();
+    void redo();
+    void cut();
+    void copy();
+    void paste();
+    void selectAll();
+    void pasteFromFile();
+    void deleteText();
+    void deleteAll();
 
 private:
     QMap<Editor*, QString> m_htmlCache;

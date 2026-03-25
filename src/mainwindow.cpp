@@ -16,6 +16,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::saveFile);
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveFileAs);
     connect(ui->actionNew, &QAction::triggered, this, &MainWindow::openNewEditor);
+    connect(ui->actionCut, &QAction::triggered, this, &MainWindow::cut);
+    connect(ui->actionCopy, &QAction::triggered, this, &MainWindow::copy);
+    connect(ui->actionPaste, &QAction::triggered, this, &MainWindow::paste);
+    connect(ui->actionPaste_from_file, &QAction::triggered, this, &MainWindow::pasteFromFile);
+    connect(ui->actionSelect_All, &QAction::triggered, this, &MainWindow::selectAll);
+    connect(ui->actionDelete_All, &QAction::triggered, this, &MainWindow::deleteAll);
+    connect(ui->actionRedo, &QAction::triggered, this, &MainWindow::redo);
+    connect(ui->actionUndo, &QAction::triggered, this, &MainWindow::undo);
+    connect(ui->actionDelete, &QAction::triggered, this, &MainWindow::deleteText);
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
 }
@@ -140,4 +149,86 @@ void MainWindow::openNewEditor()
 {
     addEditor(QString(), tr("New File"), QString());
     ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
+}
+
+void MainWindow::undo()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->undo();
+}
+
+void MainWindow::redo()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->redo();
+}
+
+void MainWindow::cut()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->cut();
+}
+
+void MainWindow::copy()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->copy();
+}
+
+void MainWindow::paste()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->paste();
+}
+
+void MainWindow::selectAll()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->selectAll();
+}
+
+void MainWindow::pasteFromFile()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        const QString path = QFileDialog::getOpenFileName(this, tr("Paste From File"), QDir::homePath());
+        if(!path.isEmpty())
+        {
+            QFile file(path);
+            if(file.open(QIODevice::ReadOnly))
+                editor->appendPlainText(file.readAll());
+        }
+    }
+}
+
+void MainWindow::deleteText()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        QTextCursor cursor = editor->textCursor();
+        if(cursor.hasSelection())
+            cursor.removeSelectedText();
+        else
+            cursor.deleteChar();
+    }
+}
+
+void MainWindow::deleteAll()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        editor->selectAll();
+        QTextCursor cursor = editor->textCursor();
+        if(cursor.hasSelection())
+            cursor.removeSelectedText();
+    }
 }

@@ -325,7 +325,7 @@
     <string>Delete</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+D</string>
+    <string>Del</string>
    </property>
   </action>
   <action name="actionDelete_All">
