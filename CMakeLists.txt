@@ -5,6 +5,7 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets WebEngineWidgets)
 find_library(MD4C_HTML_LIB NAMES md4c-html)
 
 qt_standard_project_setup()
+set(CMAKE_AUTORCC ON)
 
 qt_add_executable(markdspiral
     WIN32 MACOSX_BUNDLE
@@ -14,6 +15,7 @@ qt_add_executable(markdspiral
     src/mainwindow.ui
     src/editor/editor.h src/editor/editor.cpp
     src/editor/markdownhighlighter.h src/editor/markdownhighlighter.cpp
+    resources/styles.qrc
 )
 
 include_directories(src)

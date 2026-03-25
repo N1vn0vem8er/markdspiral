@@ -3,6 +3,8 @@
 #include "ui_mainwindow.h"
 
 #include <QFileDialog>
+#include <QWebEngineScript>
+#include <QWebEngineScriptCollection>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -25,8 +27,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionRedo, &QAction::triggered, this, &MainWindow::redo);
     connect(ui->actionUndo, &QAction::triggered, this, &MainWindow::undo);
     connect(ui->actionDelete, &QAction::triggered, this, &MainWindow::deleteText);
+    connect(ui->stylecomboBox, &QComboBox::currentIndexChanged, this, &MainWindow::handleChangeStyle);
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
+    handleChangeStyle(0);
 }
 
 MainWindow::~MainWindow()
@@ -51,7 +55,6 @@ QString MainWindow::markdownToHtml(const QString &markdown)
     };
     QByteArray bytes = markdown.toUtf8();
     md_html(bytes.constData(), bytes.size(), process_output, &html, MD_DIALECT_GITHUB, MD_HTML_FLAG_SKIP_UTF8_BOM);
-
     return html;
 }
 
@@ -230,5 +233,34 @@ void MainWindow::deleteAll()
         QTextCursor cursor = editor->textCursor();
         if(cursor.hasSelection())
             cursor.removeSelectedText();
+    }
+}
+
+void MainWindow::handleChangeStyle(int index)
+{
+    QString path;
+    switch(index)
+    {
+    case 0:
+        path = ":/style/css/github/github-markdown-dark.css";
+        break;
+    }
+    QFile file(path);
+    if(file.open(QIODevice::ReadOnly))
+    {
+        QString style = file.readAll();
+        file.close();
+        QString js = QString(R"(
+            var style = document.createElement('style');
+            style.innerHTML = `%1`;
+            document.head.appendChild(style);)"
+        ).arg(style.simplified());
+        QWebEngineScript script;
+        script.setSourceCode(js);
+        script.setName("markdownStyle");
+        script.setWorldId(QWebEngineScript::MainWorld);
+        script.setInjectionPoint(QWebEngineScript::DocumentReady);
+        script.setRunsOnSubFrames(true);
+        ui->webEngineView->page()->scripts().insert(script);
     }
 }

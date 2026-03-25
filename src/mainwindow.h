@@ -37,6 +37,7 @@ private slots:
     void pasteFromFile();
     void deleteText();
     void deleteAll();
+    void handleChangeStyle(int index);
 
 private:
     QMap<Editor*, QString> m_htmlCache;

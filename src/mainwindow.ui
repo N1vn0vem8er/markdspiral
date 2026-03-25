@@ -115,7 +115,18 @@
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="stylecomboBox"/>
+           <widget class="QComboBox" name="stylecomboBox">
+            <item>
+             <property name="text">
+              <string>Github Dark</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Github Light</string>
+             </property>
+            </item>
+           </widget>
           </item>
          </layout>
         </item>
