@@ -3,6 +3,7 @@
 #include "ui_mainwindow.h"
 
 #include <QFileDialog>
+#include <QFontDialog>
 #include <QWebEngineScript>
 #include <QWebEngineScriptCollection>
 
@@ -28,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionUndo, &QAction::triggered, this, &MainWindow::undo);
     connect(ui->actionDelete, &QAction::triggered, this, &MainWindow::deleteText);
     connect(ui->stylecomboBox, &QComboBox::currentIndexChanged, this, &MainWindow::handleChangeStyle);
+    connect(ui->actionSet_font, &QAction::triggered, this, &MainWindow::setFont);
+    connect(ui->actionIncrease_font_size, &QAction::triggered, this, &MainWindow::increaseFontSize);
+    connect(ui->actionDecrease_font_size, &QAction::triggered, this, &MainWindow::decreaseFontSize);
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
     handleChangeStyle(0);
@@ -262,5 +266,31 @@ void MainWindow::handleChangeStyle(int index)
         script.setInjectionPoint(QWebEngineScript::DocumentReady);
         script.setRunsOnSubFrames(true);
         ui->webEngineView->page()->scripts().insert(script);
+    }
+}
+
+void MainWindow::increaseFontSize()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->increaseFontSize();
+}
+
+void MainWindow::decreaseFontSize()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->decreaseFontSize();
+}
+
+void MainWindow::setFont()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        bool ok;
+        const QFont font = QFontDialog::getFont(&ok, editor->font(), this, tr("Select Font"));
+        if(ok)
+            editor->setFont(font);
     }
 }

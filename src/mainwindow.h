@@ -38,6 +38,9 @@ private slots:
     void deleteText();
     void deleteAll();
     void handleChangeStyle(int index);
+    void increaseFontSize();
+    void decreaseFontSize();
+    void setFont();
 
 private:
     QMap<Editor*, QString> m_htmlCache;

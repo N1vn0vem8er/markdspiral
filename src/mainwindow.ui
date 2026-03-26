@@ -187,6 +187,9 @@
     <property name="title">
      <string>View</string>
     </property>
+    <addaction name="actionIncrease_font_size"/>
+    <addaction name="actionDecrease_font_size"/>
+    <addaction name="actionSet_font"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -370,6 +373,30 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionIncrease_font_size">
+   <property name="icon">
+    <iconset theme="font-size-up"/>
+   </property>
+   <property name="text">
+    <string>Increase font size</string>
+   </property>
+  </action>
+  <action name="actionDecrease_font_size">
+   <property name="icon">
+    <iconset theme="font-size-down"/>
+   </property>
+   <property name="text">
+    <string>Decrease font size</string>
+   </property>
+  </action>
+  <action name="actionSet_font">
+   <property name="icon">
+    <iconset theme="font"/>
+   </property>
+   <property name="text">
+    <string>Set font</string>
    </property>
   </action>
  </widget>
