@@ -248,6 +248,8 @@ void MainWindow::handleChangeStyle(int index)
     case 0:
         path = ":/style/css/github/github-markdown-dark.css";
         break;
+    case 1:
+        path = ":/style/css/github/github-markdown-light.css";
     }
     QFile file(path);
     if(file.open(QIODevice::ReadOnly))
@@ -266,6 +268,7 @@ void MainWindow::handleChangeStyle(int index)
         script.setInjectionPoint(QWebEngineScript::DocumentReady);
         script.setRunsOnSubFrames(true);
         ui->webEngineView->page()->scripts().insert(script);
+        handleTextChanged();
     }
 }
 

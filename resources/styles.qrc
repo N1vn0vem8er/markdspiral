@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/style">
         <file>css/github/github-markdown-dark.css</file>
+        <file>css/github/github-markdown-light.css</file>
     </qresource>
 </RCC>
