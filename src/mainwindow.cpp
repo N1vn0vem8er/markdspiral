@@ -81,7 +81,7 @@ void MainWindow::handleTabChanged(int index)
 void MainWindow::handleTextChanged()
 {
     if(!m_currentEditor) return;
-    QString html = markdownToHtml(m_currentEditor->toPlainText());
+    QString html = QStringLiteral(R"(<html><body style="margin: 0; padding: 0;"><div class="markdown-body" style="width: 100%; height: 100%;">%1</div></body></html>)").arg(markdownToHtml(m_currentEditor->toPlainText()));
     m_htmlCache[m_currentEditor] = html;
     ui->webEngineView->setHtml(html);
 }
