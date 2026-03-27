@@ -126,6 +126,26 @@
               <string>Github Light</string>
              </property>
             </item>
+            <item>
+             <property name="text">
+              <string>Github Drak Colorblind</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Github Dark Dimmed</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Github Dark High Contrast</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Github Light Colorblind</string>
+             </property>
+            </item>
            </widget>
           </item>
          </layout>

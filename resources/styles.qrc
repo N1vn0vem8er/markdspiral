@@ -2,5 +2,9 @@
     <qresource prefix="/style">
         <file>css/github/github-markdown-dark.css</file>
         <file>css/github/github-markdown-light.css</file>
+        <file>css/github/github-markdown-dark-colorblind.css</file>
+        <file>css/github/github-markdown-dark-dimmed.css</file>
+        <file>css/github/github-markdown-dark-high-contrast.css</file>
+        <file>css/github/github-markdown-light-colorblind.css</file>
     </qresource>
 </RCC>

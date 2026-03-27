@@ -250,6 +250,19 @@ void MainWindow::handleChangeStyle(int index)
         break;
     case 1:
         path = ":/style/css/github/github-markdown-light.css";
+        break;
+    case 2:
+        path = ":/style/css/github/github-markdown-dark-colorblind.css";
+        break;
+    case 3:
+        path = ":/style/css/github/github-markdown-dark-dimmed.css";
+        break;
+    case 4:
+        path = ":/style/css/github/github-markdown-dark-high-contrast.css";
+        break;
+    case 5:
+        path = ":/style/css/github/github-markdown-light-colorblind.css";
+        break;
     }
     QFile file(path);
     if(file.open(QIODevice::ReadOnly))
