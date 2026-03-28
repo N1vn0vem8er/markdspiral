@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSet_font, &QAction::triggered, this, &MainWindow::setFont);
     connect(ui->actionIncrease_font_size, &QAction::triggered, this, &MainWindow::increaseFontSize);
     connect(ui->actionDecrease_font_size, &QAction::triggered, this, &MainWindow::decreaseFontSize);
+    connect(ui->actionShow_Git, &QAction::triggered, this, &MainWindow::showGitWidget);
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
     handleChangeStyle(0);
@@ -311,5 +312,18 @@ void MainWindow::setFont()
         const QFont font = QFontDialog::getFont(&ok, editor->font(), this, tr("Select Font"));
         if(ok)
             editor->setFont(font);
+    }
+}
+
+void MainWindow::showGitWidget()
+{
+    if(ui->stackedWidget->currentIndex() == 0 && ui->stackedWidget->isVisible())
+    {
+        ui->stackedWidget->setVisible(false);
+    }
+    else
+    {
+        ui->stackedWidget->setVisible(true);
+        ui->stackedWidget->setCurrentIndex(0);
     }
 }

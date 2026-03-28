@@ -41,6 +41,7 @@ private slots:
     void increaseFontSize();
     void decreaseFontSize();
     void setFont();
+    void showGitWidget();
 
 private:
     QMap<Editor*, QString> m_htmlCache;
