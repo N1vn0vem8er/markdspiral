@@ -146,6 +146,11 @@
               <string>Github Light Colorblind</string>
              </property>
             </item>
+            <item>
+             <property name="text">
+              <string>gitlab</string>
+             </property>
+            </item>
            </widget>
           </item>
          </layout>

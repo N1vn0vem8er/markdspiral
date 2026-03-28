@@ -263,6 +263,9 @@ void MainWindow::handleChangeStyle(int index)
     case 5:
         path = ":/style/css/github/github-markdown-light-colorblind.css";
         break;
+    case 6:
+        path = ":/style/css/gitlab/gitlab.css";
+        break;
     }
     QFile file(path);
     if(file.open(QIODevice::ReadOnly))
