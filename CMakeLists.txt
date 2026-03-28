@@ -15,10 +15,17 @@ qt_add_executable(markdspiral
     src/mainwindow.ui
     src/editor/editor.h src/editor/editor.cpp
     src/editor/markdownhighlighter.h src/editor/markdownhighlighter.cpp
+    src/widgets/gitwidget.ui src/widgets/gitwidget.h src/widgets/gitwidget.cpp
+    src/widgets/gitfilesview.h src/widgets/gitfilesview.cpp
+    src/widgets/gitbranchdialog.ui src/widgets/gitbranchdialog.h src/widgets/gitbranchdialog.cpp
+    src/widgets/gitfilestatusitemdelegate.h src/widgets/gitfilestatusitemdelegate.cpp
+    src/widgets/gitfilestatusmodel.h src/widgets/gitfilestatusmodel.cpp
     resources/styles.qrc
+    src/widgets/GitFileStatus.h
+    src/processmanager.h src/processmanager.cpp
 )
 
-include_directories(src)
+include_directories(src widgets)
 
 target_link_libraries(markdspiral
     PRIVATE
