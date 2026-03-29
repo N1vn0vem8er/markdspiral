@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionIncrease_font_size, &QAction::triggered, this, &MainWindow::increaseFontSize);
     connect(ui->actionDecrease_font_size, &QAction::triggered, this, &MainWindow::decreaseFontSize);
     connect(ui->actionShow_Git, &QAction::triggered, this, &MainWindow::showGitWidget);
+    connect(ui->actionOpen_Dir, &QAction::triggered, this, &MainWindow::openDir);
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
     handleChangeStyle(0);
@@ -325,5 +326,14 @@ void MainWindow::showGitWidget()
     {
         ui->stackedWidget->setVisible(true);
         ui->stackedWidget->setCurrentIndex(0);
+    }
+}
+
+void MainWindow::openDir()
+{
+    const QString path = QFileDialog::getExistingDirectory(this, tr("Open"));
+    if(!path.isEmpty())
+    {
+        ui->gitWidget->setRepositoryPath(path);
     }
 }

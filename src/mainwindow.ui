@@ -185,6 +185,7 @@
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
+    <addaction name="actionOpen_Dir"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
     <addaction name="actionClose"/>
@@ -441,6 +442,11 @@
   <action name="actionShow_Git">
    <property name="text">
     <string>Show Git</string>
+   </property>
+  </action>
+  <action name="actionOpen_Dir">
+   <property name="text">
+    <string>Open Dir</string>
    </property>
   </action>
  </widget>
