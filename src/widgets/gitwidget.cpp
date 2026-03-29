@@ -80,10 +80,19 @@ GitWidget::~GitWidget()
 
 void GitWidget::setRepositoryPath(const QString &path)
 {
-    repoPath = path;
-    setVisibility(true);
-    readStatus();
-    emit branchNameChanged(getBranchName());
+    QProcess process;
+    process.setWorkingDirectory(path);
+    process.startCommand("git status");
+    process.waitForStarted();
+    process.waitForFinished();
+    process.waitForReadyRead();
+    if(process.readAllStandardError().isEmpty())
+    {
+        repoPath = path;
+        setVisibility(true);
+        readStatus();
+        emit branchNameChanged(getBranchName());
+    }
 }
 
 void GitWidget::noRepo()
@@ -198,7 +207,8 @@ QList<QPair<QString, QPair<QString, QString>>> GitWidget::readDiff() const
     QList<QPair<QString, QPair<QString, QString>>> changed;
 
     const QString results = process.readAllStandardOutput();
-    QRegularExpressionMatchIterator iterator = QRegularExpression(R"((\d+)\t(\d+)\t(.+))").globalMatch(results);
+    static const QRegularExpression regex(R"((\d+)\t(\d+)\t(.+))");
+    QRegularExpressionMatchIterator iterator = regex.globalMatch(results);
     while(iterator.hasNext())
     {
         auto match = iterator.next();
@@ -404,7 +414,8 @@ QStringList GitWidget::getBranches() const
     process.waitForFinished(3000);
     process.waitForReadyRead(3000);
     const QString results = process.readAllStandardOutput();
-    QRegularExpressionMatchIterator iterator = QRegularExpression(R"((\S+))").globalMatch(results);
+    static const QRegularExpression regex(R"((\S+))");
+    QRegularExpressionMatchIterator iterator = regex.globalMatch(results);
     QStringList branches;
     while(iterator.hasNext())
     {
