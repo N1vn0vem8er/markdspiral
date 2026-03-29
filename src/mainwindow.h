@@ -43,6 +43,7 @@ private slots:
     void setFont();
     void showGitWidget();
     void openDir();
+    void openTextFile(const QString& path);
 
 private:
     QMap<Editor*, QString> m_htmlCache;

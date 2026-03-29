@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionDecrease_font_size, &QAction::triggered, this, &MainWindow::decreaseFontSize);
     connect(ui->actionShow_Git, &QAction::triggered, this, &MainWindow::showGitWidget);
     connect(ui->actionOpen_Dir, &QAction::triggered, this, &MainWindow::openDir);
+    connect(ui->gitWidget, &GitWidget::openFile, this, &MainWindow::openTextFile);
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
     handleChangeStyle(0);
@@ -103,13 +104,7 @@ void MainWindow::openFile()
 {
     const QString path = QFileDialog::getOpenFileName(this, tr("Open"), QDir::homePath());
     if(!path.isEmpty())
-    {
-        QFile file(path);
-        if(file.open(QIODevice::ReadOnly))
-        {
-            addEditor(file.readAll(), file.fileName(), path);
-        }
-    }
+        openTextFile(path);
 }
 
 void MainWindow::saveFile()
@@ -335,5 +330,14 @@ void MainWindow::openDir()
     if(!path.isEmpty())
     {
         ui->gitWidget->setRepositoryPath(path);
+    }
+}
+
+void MainWindow::openTextFile(const QString &path)
+{
+    QFile file(path);
+    if(file.open(QIODevice::ReadOnly))
+    {
+        addEditor(file.readAll(), file.fileName(), path);
     }
 }
