@@ -23,6 +23,7 @@ qt_add_executable(markdspiral
     resources/styles.qrc
     src/widgets/GitFileStatus.h
     src/processmanager.h src/processmanager.cpp
+    src/widgets/runningprocesseslabel.h src/widgets/runningprocesseslabel.cpp
 )
 
 include_directories(src widgets)

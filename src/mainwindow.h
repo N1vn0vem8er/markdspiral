@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "editor/editor.h"
+#include "widgets/runningprocesseslabel.h"
 #include <QMainWindow>
 #include <md4c-html.h>
 #include <md4c.h>
@@ -51,5 +52,6 @@ private:
     Ui::MainWindow *ui;
     void addEditor(const QString &text, const QString &name, const QString &path);
     QString markdownToHtml(const QString& markdown);
+    RunningProcessesLabel* runningProcessesLabel;
 };
 #endif // MAINWINDOW_H

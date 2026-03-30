@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "editor/editor.h"
+#include "processmanager.h"
 #include "ui_mainwindow.h"
-
 #include <QFileDialog>
 #include <QFontDialog>
 #include <QWebEngineScript>
@@ -12,6 +12,11 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    runningProcessesLabel = new RunningProcessesLabel("", ui->statusbar);
+    ui->statusbar->addPermanentWidget(runningProcessesLabel);
+
+    connect(ProcessManager::getInstance(), &ProcessManager::processAdded, runningProcessesLabel, &RunningProcessesLabel::addProcess);
+    connect(ProcessManager::getInstance(), &ProcessManager::processRemoved, runningProcessesLabel, &RunningProcessesLabel::removeProcess);
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::handleTabChanged);
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::handleCloseTab);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
