@@ -96,13 +96,15 @@ void MainWindow::handleTextChanged()
 
 void MainWindow::handleCloseTab(int index)
 {
-    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->widget(index));
-    if(editor)
+    QWidget* widget = ui->tabWidget->widget(index);
+    if(widget)
     {
-        m_htmlCache.remove(editor);
-        editor->deleteLater();
+        Editor* editor = qobject_cast<Editor*>(widget);
+        if(editor)
+            m_htmlCache.remove(editor);
+        ui->tabWidget->removeTab(index);
+        widget->deleteLater();
     }
-    ui->tabWidget->removeTab(index);
 }
 
 void MainWindow::openFile()
