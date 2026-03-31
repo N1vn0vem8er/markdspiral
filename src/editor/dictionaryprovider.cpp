@@ -15,8 +15,7 @@ std::shared_ptr<nuspell::Dictionary> DictionaryProvider::getDictionary(const QSt
     if(cache.contains(langCode))
         return cache[langCode];
 
-    auto dirs = nuspell::search_default_dirs_for_dicts();
-    std::string path = nuspell::search_dirs_for_one_dict(dirs, langCode.toStdString());
+    std::string path = nuspell::search_dirs_for_one_dict({"/usr/share/hunspell"}, langCode.toStdString());
 
     if(path.empty())
         return nullptr;
