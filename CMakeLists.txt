@@ -3,6 +3,7 @@ project(markdspiral LANGUAGES CXX)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets WebEngineWidgets)
 find_library(MD4C_HTML_LIB NAMES md4c-html)
+find_package(Nuspell REQUIRED)
 
 qt_standard_project_setup()
 set(CMAKE_AUTORCC ON)
@@ -24,6 +25,7 @@ qt_add_executable(markdspiral
     src/widgets/GitFileStatus.h
     src/processmanager.h src/processmanager.cpp
     src/widgets/runningprocesseslabel.h src/widgets/runningprocesseslabel.cpp
+    src/editor/dictionaryprovider.h src/editor/dictionaryprovider.cpp
 )
 
 include_directories(src widgets)
@@ -34,6 +36,7 @@ target_link_libraries(markdspiral
         Qt::Widgets
         Qt::WebEngineWidgets
         ${MD4C_HTML_LIB}
+        Nuspell::nuspell
 )
 
 include(GNUInstallDirs)

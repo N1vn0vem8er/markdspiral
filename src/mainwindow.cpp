@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "editor/dictionaryprovider.h"
 #include "editor/editor.h"
 #include "processmanager.h"
 #include "ui_mainwindow.h"
