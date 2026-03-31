@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 project(markdspiral LANGUAGES CXX)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets WebEngineWidgets)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets WebEngineWidgets Concurrent)
 find_library(MD4C_HTML_LIB NAMES md4c-html)
 find_package(Nuspell REQUIRED)
 
@@ -37,6 +37,7 @@ target_link_libraries(markdspiral
         Qt::WebEngineWidgets
         ${MD4C_HTML_LIB}
         Nuspell::nuspell
+        Qt::Concurrent
 )
 
 include(GNUInstallDirs)

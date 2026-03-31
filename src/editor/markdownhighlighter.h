@@ -11,6 +11,11 @@ class MarkdownHighlighter : public QSyntaxHighlighter
 
 public:
     explicit MarkdownHighlighter(QTextDocument *parent = nullptr);
+    struct SpellError {
+        int start;
+        int length;
+    };
+    void setErrorList(const QList<MarkdownHighlighter::SpellError> &errors);
 
 protected:
     void highlightBlock(const QString &text) override;
@@ -29,8 +34,10 @@ private:
     QTextCharFormat listFormat;
     QTextCharFormat linkFormat;
     QTextCharFormat quoteFormat;
+    QTextCharFormat errorFormat;
     QRegularExpression commentStartExpression;
     QRegularExpression commentEndExpression;
+    QList<SpellError> errors;
 };
 
 #endif // MARKDOWNHIGHLIGHTER_H

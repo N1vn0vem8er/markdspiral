@@ -1,8 +1,10 @@
+#include "dictionaryprovider.h"
 #include "editor.h"
 #include "editor/markdownhighlighter.h"
 
 #include <QPainter>
 #include <QTextBlock>
+#include <qtconcurrentrun.h>
 
 Editor::Editor(QWidget *parent) : QPlainTextEdit(parent)
 {
@@ -14,14 +16,21 @@ Editor::Editor(const QString &text, const QString &path, QWidget *parent)
     init();
 }
 
+Editor::~Editor()
+{
+    delayTimer.stop();
+    watcher.future().cancel();
+    watcher.waitForFinished();
+}
+
 QString Editor::getPath() const
 {
-
+    return path;
 }
 
 void Editor::setPath(const QString &newPath)
 {
-
+    path = newPath;
 }
 
 int Editor::lineNumberWidth()
@@ -47,9 +56,9 @@ void Editor::lineNumberAreaPaint(QPaintEvent *event)
     int blockNumber = block.blockNumber();
     int top = qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
     int bottom = top + qRound(blockBoundingRect(block).height());
-    while (block.isValid() && top <= event->rect().bottom())
+    while(block.isValid() && top <= event->rect().bottom())
     {
-        if (block.isVisible() && bottom >= event->rect().top())
+        if(block.isVisible() && bottom >= event->rect().top())
         {
             QString number = QString::number(blockNumber + 1);
             painter.setPen(textColor);
@@ -155,6 +164,68 @@ void Editor::wheelEvent(QWheelEvent *event)
         QPlainTextEdit::wheelEvent(event);
 }
 
+void Editor::startAsyncCheck()
+{
+    if(watcher.isRunning()) return;
+
+    auto checkText = [](const QString& text, std::shared_ptr<nuspell::Dictionary> dict){
+        QList<MarkdownHighlighter::SpellError> errors;
+        QString masked = text;
+        auto maskMatchesWithSpaces = [](QString& s, const QRegularExpression& re) {
+            QRegularExpressionMatchIterator it = re.globalMatch(s);
+            QList<QPair<int, int>> ranges;
+            while(it.hasNext())
+            {
+                auto m = it.next();
+                ranges.append({m.capturedStart(), m.capturedLength()});
+            }
+            for(int i = ranges.size() - 1; i >= 0; i--)
+            {
+                int len = ranges[i].second;
+                s.replace(ranges[i].first, len, QString(len, QChar(' ')));
+            }
+        };
+        static QRegularExpression fencedCodeRegex(R"(```[\s\S]*?```)", QRegularExpression::MultilineOption);
+        static QRegularExpression inlineCodeRegex(R"(`[^`\n]*`)");
+        static QRegularExpression htmlTagRegex(R"(<[^>]+>)");
+        static QRegularExpression urlRegex(R"(\bhttps?://[^\s)]+)");
+        static QRegularExpression imageRegex(R"(!\[[^\]]*\]\([^)]+\))");
+        static QRegularExpression linkRegex(R"(\[[^\]]+\]\([^)]+\))");
+
+        maskMatchesWithSpaces(masked, fencedCodeRegex);
+        maskMatchesWithSpaces(masked, inlineCodeRegex);
+        maskMatchesWithSpaces(masked, htmlTagRegex);
+        maskMatchesWithSpaces(masked, urlRegex);
+        maskMatchesWithSpaces(masked, imageRegex);
+        maskMatchesWithSpaces(masked, linkRegex);
+
+        static QRegularExpression wordRegex(R"(\b\p{L}+(?:['’\-]\p{L}+)*\b)", QRegularExpression::UseUnicodePropertiesOption);
+        QRegularExpressionMatchIterator it = wordRegex.globalMatch(masked);
+        while(it.hasNext())
+        {
+            auto match = it.next();
+            QString word = match.captured(0);
+            if (!dict->spell(word.toUtf8().constData()))
+            {
+                errors.append({static_cast<int>(match.capturedStart()), static_cast<int>(word.length())});
+            }
+        }
+
+        return errors;
+
+    };
+    QString textToCheck = this->toPlainText();
+    QFuture<QList<MarkdownHighlighter::SpellError>> future = QtConcurrent::run(checkText, textToCheck, DictionaryProvider::instance().getDictionary("en_US"));
+    watcher.setFuture(future);
+}
+
+void Editor::handleResults()
+{
+    QList<MarkdownHighlighter::SpellError> errors = watcher.result();
+    highlighter->setErrorList(errors);
+    highlighter->rehighlight();
+}
+
 void Editor::init()
 {
     highlighter = new MarkdownHighlighter(this->document());
@@ -164,6 +235,9 @@ void Editor::init()
     connect(this, &Editor::textChanged, this, [this]{setSaved(false);});
     updateLineNumberWidth(0);
     defaultFormat = textCursor().charFormat();
+    connect(&watcher, &QFutureWatcher<QList<MarkdownHighlighter::SpellError>>::finished, this, &Editor::handleResults);
+    connect(&delayTimer, &QTimer::timeout, this, &Editor::startAsyncCheck);
+    connect(this, &Editor::textChanged, this, [this]{delayTimer.stop(); delayTimer.start(500);});
 }
 
 void Editor::updateLineNumberWidth(int count)
@@ -180,7 +254,6 @@ void Editor::updateLineNumber(const QRect &rect, int dy)
     if(rect.contains(viewport()->rect()))
         updateLineNumberWidth(0);
 }
-
 
 
 Editor::LineNumberArea::LineNumberArea(Editor *parent) : QWidget(parent), textEditor(parent)

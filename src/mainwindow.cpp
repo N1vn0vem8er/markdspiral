@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include "editor/dictionaryprovider.h"
 #include "editor/editor.h"
 #include "processmanager.h"
 #include "ui_mainwindow.h"
@@ -56,6 +55,7 @@ void MainWindow::addEditor(const QString& text, const QString& name, const QStri
     Editor* editor = new Editor(ui->tabWidget);
     editor->setPath(path);
     editor->setPlainText(text);
+    connect(editor, &Editor::textChanged, this, &MainWindow::handleTextChanged);
     ui->tabWidget->addTab(editor, name);
 }
 
@@ -74,8 +74,6 @@ QString MainWindow::markdownToHtml(const QString &markdown)
 void MainWindow::handleTabChanged(int index)
 {
     if(index == -1) return;
-    if(m_currentEditor)
-        disconnect(m_currentEditor, &Editor::textChanged, this, &MainWindow::handleTextChanged);
     m_currentEditor = qobject_cast<Editor*>(ui->tabWidget->widget(index));
     if(m_currentEditor)
     {
@@ -83,7 +81,6 @@ void MainWindow::handleTabChanged(int index)
             ui->webEngineView->setHtml(m_htmlCache[m_currentEditor]);
         else
             handleTextChanged();
-        connect(m_currentEditor, &Editor::textChanged, this, &MainWindow::handleTextChanged);
     }
 }
 
@@ -102,7 +99,9 @@ void MainWindow::handleCloseTab(int index)
     {
         Editor* editor = qobject_cast<Editor*>(widget);
         if(editor)
+        {
             m_htmlCache.remove(editor);
+        }
         ui->tabWidget->removeTab(index);
         widget->deleteLater();
     }

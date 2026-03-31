@@ -1,4 +1,5 @@
 #include "markdownhighlighter.h"
+#include "editor.h"
 
 MarkdownHighlighter::MarkdownHighlighter(QTextDocument *parent) : QSyntaxHighlighter(parent)
 {
@@ -40,10 +41,24 @@ MarkdownHighlighter::MarkdownHighlighter(QTextDocument *parent) : QSyntaxHighlig
     highlightingRules.append(rule);
     commentStartExpression = QRegularExpression(QStringLiteral("^```"));
     commentEndExpression = QRegularExpression(QStringLiteral("^```"));
+    errorFormat.setUnderlineColor(Qt::red);
+    errorFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
+}
+
+void MarkdownHighlighter::setErrorList(const QList<SpellError> &errors)
+{
+    this->errors = errors;
 }
 
 void MarkdownHighlighter::highlightBlock(const QString &text)
 {
+    int blockStart = currentBlock().position();
+    for(const auto& error : std::as_const(errors))
+    {
+        if(error.start >= blockStart && error.start < blockStart + text.length())
+            setFormat(error.start - blockStart, error.length, errorFormat);
+    }
+
     for(const HighlightingRule &rule : std::as_const(highlightingRules))
     {
         QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);

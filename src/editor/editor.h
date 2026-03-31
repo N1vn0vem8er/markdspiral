@@ -1,8 +1,11 @@
 #ifndef EDITOR_H
 #define EDITOR_H
 
-#include "editor/markdownhighlighter.h"
+#include "markdownhighlighter.h"
+#include <QFutureWatcher>
 #include <QPlainTextEdit>
+#include <QTimer>
+#include <nuspell/dictionary.hxx>
 
 class Editor : public QPlainTextEdit
 {
@@ -10,6 +13,7 @@ class Editor : public QPlainTextEdit
 public:
     explicit Editor(QWidget *parent = nullptr);
     Editor(const QString& text, const QString& path, QWidget* parent = nullptr);
+    ~Editor();
     QString getPath() const;
     void setPath(const QString &newPath);
     int lineNumberWidth();
@@ -29,6 +33,10 @@ public:
 protected:
     void resizeEvent(QResizeEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
+
+private slots:
+    void startAsyncCheck();
+    void handleResults();
 
 private:
     class LineNumberArea : public QWidget
@@ -52,6 +60,8 @@ private:
     void updateLineNumber(const QRect &rect, int dy);
     QTextCharFormat defaultFormat;
     MarkdownHighlighter* highlighter;
+    QFutureWatcher<QList<MarkdownHighlighter::SpellError>> watcher;
+    QTimer delayTimer;
 
 signals:
     void fontSizeChanged(int size);
