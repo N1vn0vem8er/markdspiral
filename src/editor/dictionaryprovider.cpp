@@ -23,6 +23,7 @@ std::shared_ptr<nuspell::Dictionary> DictionaryProvider::getDictionary(const QSt
     try
     {
         nuspell::Dictionary dict;
+        dict.load_aff_dic(path);
         auto sharedDict = std::make_shared<nuspell::Dictionary>(std::move(dict));
         cache[langCode] = sharedDict;
         return sharedDict;
