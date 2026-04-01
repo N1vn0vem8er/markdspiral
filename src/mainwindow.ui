@@ -228,7 +228,19 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <widget class="QMenu" name="menuSpell_Checking">
+     <property name="title">
+      <string>Spell Checking</string>
+     </property>
+     <widget class="QMenu" name="menuSelect_Language">
+      <property name="title">
+       <string>Select Language</string>
+      </property>
+     </widget>
+     <addaction name="menuSelect_Language"/>
+    </widget>
     <addaction name="actionGit"/>
+    <addaction name="menuSpell_Checking"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -447,6 +459,11 @@
   <action name="actionOpen_Dir">
    <property name="text">
     <string>Open Dir</string>
+   </property>
+  </action>
+  <action name="actionlanguage">
+   <property name="text">
+    <string>language</string>
    </property>
   </action>
  </widget>

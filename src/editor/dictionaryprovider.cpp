@@ -1,5 +1,6 @@
 #include "dictionaryprovider.h"
 #include <nuspell/finder.hxx>
+#include <QFileInfo>
 #include <qdebug.h>
 
 DictionaryProvider &DictionaryProvider::instance()
@@ -32,4 +33,16 @@ std::shared_ptr<nuspell::Dictionary> DictionaryProvider::getDictionary(const QSt
     {
         return nullptr;
     }
+}
+
+QList<QString> DictionaryProvider::getLanguages()
+{
+    if(!languages.isEmpty())
+        return languages;
+    const auto dicts = nuspell::search_default_dirs_for_dicts();
+    for(const auto& i : dicts)
+    {
+        languages.append(QFileInfo(i).baseName());
+    }
+    return languages;
 }

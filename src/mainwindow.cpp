@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "editor/dictionaryprovider.h"
 #include "editor/editor.h"
 #include "processmanager.h"
 #include "ui_mainwindow.h"
@@ -43,6 +44,12 @@ MainWindow::MainWindow(QWidget *parent)
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
     handleChangeStyle(0);
+    for(const auto& i : DictionaryProvider::instance().getLanguages())
+    {
+        QAction* action = new QAction(ui->menuSelect_Language);
+        action->setText(i);
+        ui->menuSelect_Language->addAction(action);
+    }
 }
 
 MainWindow::~MainWindow()
