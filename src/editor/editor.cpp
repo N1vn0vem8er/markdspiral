@@ -175,6 +175,7 @@ void Editor::startAsyncCheck()
 
     auto checkText = [](const QString& text, std::shared_ptr<nuspell::Dictionary> dict){
         QList<MarkdownHighlighter::SpellError> errors;
+        if(!dict) return errors;
         QString masked = text;
         auto maskMatchesWithSpaces = [](QString& s, const QRegularExpression& re) {
             QRegularExpressionMatchIterator it = re.globalMatch(s);
