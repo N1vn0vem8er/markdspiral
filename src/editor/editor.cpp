@@ -143,6 +143,11 @@ void Editor::setFontSize(int size)
 
 }
 
+void Editor::setLanguage(const QString &code)
+{
+    languageCode = code;
+}
+
 void Editor::resizeEvent(QResizeEvent *event)
 {
     QPlainTextEdit::resizeEvent(event);
@@ -215,7 +220,7 @@ void Editor::startAsyncCheck()
 
     };
     QString textToCheck = this->toPlainText();
-    QFuture<QList<MarkdownHighlighter::SpellError>> future = QtConcurrent::run(checkText, textToCheck, DictionaryProvider::instance().getDictionary("en_US"));
+    QFuture<QList<MarkdownHighlighter::SpellError>> future = QtConcurrent::run(checkText, textToCheck, DictionaryProvider::instance().getDictionary(languageCode));
     watcher.setFuture(future);
 }
 

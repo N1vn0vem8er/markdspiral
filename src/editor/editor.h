@@ -30,6 +30,9 @@ public:
     void decreaseFontSize();
     void setFontSize(int size);
 
+public slots:
+    void setLanguage(const QString& code);
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
@@ -62,6 +65,7 @@ private:
     MarkdownHighlighter* highlighter;
     QFutureWatcher<QList<MarkdownHighlighter::SpellError>> watcher;
     QTimer delayTimer;
+    QString languageCode {"en_US"};
 
 signals:
     void fontSizeChanged(int size);

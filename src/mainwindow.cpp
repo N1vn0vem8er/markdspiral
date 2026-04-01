@@ -48,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     {
         QAction* action = new QAction(ui->menuSelect_Language);
         action->setText(i);
+        connect(action, &QAction::triggered, this, [action, this]{emit setLanguage(action->text());});
         ui->menuSelect_Language->addAction(action);
     }
 }
@@ -63,6 +64,7 @@ void MainWindow::addEditor(const QString& text, const QString& name, const QStri
     editor->setPath(path);
     editor->setPlainText(text);
     connect(editor, &Editor::textChanged, this, &MainWindow::handleTextChanged);
+    connect(this, &MainWindow::setLanguage, editor, &Editor::setLanguage);
     ui->tabWidget->addTab(editor, name);
 }
 
