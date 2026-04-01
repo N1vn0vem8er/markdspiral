@@ -5,6 +5,7 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QFontDialog>
+#include <QSettings>
 #include <QWebEngineScript>
 #include <QWebEngineScriptCollection>
 
@@ -15,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     runningProcessesLabel = new RunningProcessesLabel("", ui->statusbar);
     ui->statusbar->addPermanentWidget(runningProcessesLabel);
+    languageLabel = new QLabel("", ui->statusbar);
+    ui->statusbar->addPermanentWidget(languageLabel);
 
     connect(ProcessManager::getInstance(), &ProcessManager::processAdded, runningProcessesLabel, &RunningProcessesLabel::addProcess);
     connect(ProcessManager::getInstance(), &ProcessManager::processRemoved, runningProcessesLabel, &RunningProcessesLabel::removeProcess);
@@ -48,9 +51,15 @@ MainWindow::MainWindow(QWidget *parent)
     {
         QAction* action = new QAction(ui->menuSelect_Language);
         action->setText(i);
-        connect(action, &QAction::triggered, this, [action, this]{emit setLanguage(action->text());});
+        connect(action, &QAction::triggered, this, [action, this]{
+            emit setLanguage(action->text());
+            languageLabel->setText(action->text());
+            QSettings("markdspiral").setValue("spellcheck.language", action->text());
+        });
         ui->menuSelect_Language->addAction(action);
     }
+    QSettings settings("markdspiral");
+    languageLabel->setText(settings.value("spellcheck.language").toString());
 }
 
 MainWindow::~MainWindow()
@@ -63,6 +72,7 @@ void MainWindow::addEditor(const QString& text, const QString& name, const QStri
     Editor* editor = new Editor(ui->tabWidget);
     editor->setPath(path);
     editor->setPlainText(text);
+    editor->setLanguage(QSettings("markdspiral").value("spellcheck.language").toString());
     connect(editor, &Editor::textChanged, this, &MainWindow::handleTextChanged);
     connect(this, &MainWindow::setLanguage, editor, &Editor::setLanguage);
     ui->tabWidget->addTab(editor, name);

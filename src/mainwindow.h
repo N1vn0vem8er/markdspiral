@@ -53,6 +53,7 @@ private:
     void addEditor(const QString &text, const QString &name, const QString &path);
     QString markdownToHtml(const QString& markdown);
     RunningProcessesLabel* runningProcessesLabel;
+    QLabel* languageLabel;
 
 signals:
     void setLanguage(const QString& code);
