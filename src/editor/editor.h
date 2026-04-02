@@ -40,6 +40,7 @@ protected:
 private slots:
     void startAsyncCheck();
     void handleResults();
+    void checkChanged();
 
 private:
     class LineNumberArea : public QWidget
@@ -66,6 +67,8 @@ private:
     QFutureWatcher<QList<MarkdownHighlighter::SpellError>> watcher;
     QTimer delayTimer;
     QString languageCode {"en_US"};
+    QString orginalContent;
+    bool saveWarningEnabled {true};
 
 signals:
     void fontSizeChanged(int size);

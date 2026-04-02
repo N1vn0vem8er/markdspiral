@@ -4,6 +4,7 @@
 
 #include <QPainter>
 #include <QTextBlock>
+#include <qdir.h>
 #include <qtconcurrentrun.h>
 
 Editor::Editor(QWidget *parent) : QPlainTextEdit(parent)
@@ -31,6 +32,12 @@ QString Editor::getPath() const
 void Editor::setPath(const QString &newPath)
 {
     path = newPath;
+    QFile file(path);
+    file.open(QIODevice::ReadOnly);
+    if(file.isOpen())
+    {
+        orginalContent = file.readAll();
+    }
 }
 
 int Editor::lineNumberWidth()
@@ -73,27 +80,35 @@ void Editor::lineNumberAreaPaint(QPaintEvent *event)
 
 bool Editor::getSaved() const
 {
-
+    return saved;
 }
 
 void Editor::setSaved(bool newSaved)
 {
-
+    saved = newSaved;
 }
 
 bool Editor::isSaved()
 {
-
+    return saved;
 }
 
 QString Editor::getName() const
 {
-
+    return name;
 }
 
 void Editor::setName(const QString &newName)
 {
+    name = newName;
+}
 
+void Editor::checkChanged()
+{
+    if(saveWarningEnabled)
+        setSaved(toPlainText() == orginalContent ? true : false);
+    else
+        setSaved(true);
 }
 
 void Editor::find(const QString &text)
@@ -244,6 +259,7 @@ void Editor::init()
     connect(&watcher, &QFutureWatcher<QList<MarkdownHighlighter::SpellError>>::finished, this, &Editor::handleResults);
     connect(&delayTimer, &QTimer::timeout, this, &Editor::startAsyncCheck);
     connect(this, &Editor::textChanged, this, [this]{delayTimer.stop(); delayTimer.start(500);});
+    connect(this, &QPlainTextEdit::textChanged, this, &Editor::checkChanged);
 }
 
 void Editor::updateLineNumberWidth(int count)
