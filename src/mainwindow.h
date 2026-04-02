@@ -57,5 +57,8 @@ private:
 
 signals:
     void setLanguage(const QString& code);
+
+protected:
+    void closeEvent(QCloseEvent *event) override;
 };
 #endif // MAINWINDOW_H

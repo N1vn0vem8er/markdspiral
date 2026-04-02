@@ -32,11 +32,14 @@ QString Editor::getPath() const
 void Editor::setPath(const QString &newPath)
 {
     path = newPath;
-    QFile file(path);
-    file.open(QIODevice::ReadOnly);
-    if(file.isOpen())
+    if(!path.isEmpty())
     {
-        orginalContent = file.readAll();
+        QFile file(path);
+        file.open(QIODevice::ReadOnly);
+        if(file.isOpen())
+        {
+            orginalContent = file.readAll();
+        }
     }
 }
 

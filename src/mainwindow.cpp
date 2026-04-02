@@ -45,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionShow_Git, &QAction::triggered, this, &MainWindow::showGitWidget);
     connect(ui->actionOpen_Dir, &QAction::triggered, this, &MainWindow::openDir);
     connect(ui->gitWidget, &GitWidget::openFile, this, &MainWindow::openTextFile);
+
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
     handleChangeStyle(0);
@@ -90,6 +91,15 @@ QString MainWindow::markdownToHtml(const QString &markdown)
     QByteArray bytes = markdown.toUtf8();
     md_html(bytes.constData(), bytes.size(), process_output, &html, MD_DIALECT_GITHUB, MD_HTML_FLAG_SKIP_UTF8_BOM);
     return html;
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    for(int i = 0; i < ui->tabWidget->count(); i++)
+    {
+        handleCloseTab(i);
+    }
+    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::handleTabChanged(int index)
