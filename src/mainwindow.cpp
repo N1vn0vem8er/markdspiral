@@ -47,7 +47,8 @@ MainWindow::MainWindow(QWidget *parent)
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
     handleChangeStyle(0);
-    for(const auto& i : DictionaryProvider::instance().getLanguages())
+    const auto languages = DictionaryProvider::instance().getLanguages();
+    for(const auto& i : languages)
     {
         QAction* action = new QAction(ui->menuSelect_Language);
         action->setText(i);
