@@ -17,8 +17,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     runningProcessesLabel = new RunningProcessesLabel("", ui->statusbar);
     ui->statusbar->addPermanentWidget(runningProcessesLabel);
-    languageLabel = new QLabel("", ui->statusbar);
+    languageLabel = new QLabel(ui->statusbar);
     ui->statusbar->addPermanentWidget(languageLabel);
+    openedFileLabel = new QLabel(ui->statusbar);
+    ui->statusbar->addPermanentWidget(openedFileLabel);
 
     connect(ProcessManager::getInstance(), &ProcessManager::processAdded, runningProcessesLabel, &RunningProcessesLabel::addProcess);
     connect(ProcessManager::getInstance(), &ProcessManager::processRemoved, runningProcessesLabel, &RunningProcessesLabel::removeProcess);
@@ -112,6 +114,7 @@ void MainWindow::handleTabChanged(int index)
             ui->webEngineView->setHtml(m_htmlCache[m_currentEditor]);
         else
             handleTextChanged();
+        openedFileLabel->setText(m_currentEditor->getPath());
     }
 }
 

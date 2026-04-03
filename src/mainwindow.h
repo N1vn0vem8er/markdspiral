@@ -54,6 +54,7 @@ private:
     QString markdownToHtml(const QString& markdown);
     RunningProcessesLabel* runningProcessesLabel;
     QLabel* languageLabel;
+    QLabel* openedFileLabel;
 
 signals:
     void setLanguage(const QString& code);
