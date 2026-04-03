@@ -45,6 +45,7 @@ private slots:
     void showGitWidget();
     void openDir();
     void openTextFile(const QString& path);
+    void showAbout();
 
 private:
     QMap<Editor*, QString> m_htmlCache;

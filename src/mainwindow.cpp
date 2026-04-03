@@ -10,6 +10,9 @@
 #include <QWebEngineScriptCollection>
 #include <QMessageBox>
 
+#define VERSION "0.1.0"
+#define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -48,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionOpen_Dir, &QAction::triggered, this, &MainWindow::openDir);
     connect(ui->gitWidget, &GitWidget::openFile, this, &MainWindow::openTextFile);
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
+    connect(ui->actionAbout_Markdspiral, &QAction::triggered, this, &MainWindow::showAbout);
 
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
@@ -384,4 +388,9 @@ void MainWindow::openTextFile(const QString &path)
     {
         addEditor(file.readAll(), file.fileName(), path);
     }
+}
+
+void MainWindow::showAbout()
+{
+    QMessageBox::about(this, tr("About Markdspiral"), tr(R"(<h3>About Markdspiral</h3><p>Markdspiral is a markdown editor.<p>Version: %1</p><p>License: <a href="%2">GPL 3</a></p>)").arg(VERSION, LICENSELINK));
 }
