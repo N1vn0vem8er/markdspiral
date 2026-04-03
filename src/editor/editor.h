@@ -40,7 +40,6 @@ protected:
 private slots:
     void startAsyncCheck();
     void handleResults();
-    void checkChanged();
 
 private:
     class LineNumberArea : public QWidget

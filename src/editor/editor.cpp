@@ -93,7 +93,7 @@ void Editor::setSaved(bool newSaved)
 
 bool Editor::isSaved()
 {
-    return saved;
+    return toPlainText() == orginalContent;
 }
 
 QString Editor::getName() const
@@ -104,14 +104,6 @@ QString Editor::getName() const
 void Editor::setName(const QString &newName)
 {
     name = newName;
-}
-
-void Editor::checkChanged()
-{
-    if(saveWarningEnabled)
-        setSaved(toPlainText() == orginalContent ? true : false);
-    else
-        setSaved(true);
 }
 
 void Editor::find(const QString &text)
@@ -263,7 +255,6 @@ void Editor::init()
     connect(&watcher, &QFutureWatcher<QList<MarkdownHighlighter::SpellError>>::finished, this, &Editor::handleResults);
     connect(&delayTimer, &QTimer::timeout, this, &Editor::startAsyncCheck);
     connect(this, &Editor::textChanged, this, [this]{delayTimer.stop(); delayTimer.start(500);});
-    connect(this, &QPlainTextEdit::textChanged, this, &Editor::checkChanged);
 }
 
 void Editor::updateLineNumberWidth(int count)

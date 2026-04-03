@@ -135,14 +135,17 @@ void MainWindow::handleCloseTab(int index)
         Editor* editor = qobject_cast<Editor*>(widget);
         if(editor)
         {
-            const auto response = QMessageBox::question(this, tr("Save File?"),
-                                                        tr("Save file %1?").arg(editor->getPath()),
-                                                        QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel,
-                                                        QMessageBox::Yes);
-            if(!editor->isSaved() && response == QMessageBox::Yes)
-                saveFile();
-            else if(response == QMessageBox::Cancel)
-                return;
+            if(!editor->isSaved())
+            {
+                const auto response = QMessageBox::question(this, tr("Save File?"),
+                                                            tr("Save file %1?").arg(editor->getPath()),
+                                                            QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel,
+                                                            QMessageBox::Yes);
+                if(response == QMessageBox::Yes)
+                    saveFile();
+                else if(response == QMessageBox::Cancel)
+                    return;
+            }
             m_htmlCache.remove(editor);
         }
         ui->tabWidget->removeTab(index);
