@@ -81,6 +81,7 @@ void MainWindow::addEditor(const QString& text, const QString& name, const QStri
     connect(editor, &Editor::textChanged, this, &MainWindow::handleTextChanged);
     connect(this, &MainWindow::setLanguage, editor, &Editor::setLanguage);
     ui->tabWidget->addTab(editor, name);
+    ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
 }
 
 QString MainWindow::markdownToHtml(const QString &markdown)
