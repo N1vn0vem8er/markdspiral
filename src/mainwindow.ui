@@ -191,6 +191,8 @@
     <addaction name="actionSave_As"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
+    <addaction name="actionClose_All"/>
+    <addaction name="actionClose_All_But_This"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -491,6 +493,25 @@
    </property>
    <property name="text">
     <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionClose_All">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ListRemove"/>
+   </property>
+   <property name="text">
+    <string>Close All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+W</string>
+   </property>
+  </action>
+  <action name="actionClose_All_But_This">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ListRemove"/>
+   </property>
+   <property name="text">
+    <string>Close All But This</string>
    </property>
   </action>
  </widget>

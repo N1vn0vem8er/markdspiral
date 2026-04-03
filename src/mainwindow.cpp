@@ -52,6 +52,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->gitWidget, &GitWidget::openFile, this, &MainWindow::openTextFile);
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_Markdspiral, &QAction::triggered, this, &MainWindow::showAbout);
+    connect(ui->actionClose_All, &QAction::triggered, this, [&]{while(ui->tabWidget->count() > 0) handleCloseTab(ui->tabWidget->currentIndex());});
+    connect(ui->actionClose_All_But_This, &QAction::triggered, this, [this]{for(int i=ui->tabWidget->count()-1; i >= 0;--i) if(i != ui->tabWidget->currentIndex()) handleCloseTab(i);});
 
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
