@@ -452,11 +452,17 @@
    </property>
   </action>
   <action name="actionShow_Git">
+   <property name="icon">
+    <iconset theme="git"/>
+   </property>
    <property name="text">
     <string>Show Git</string>
    </property>
   </action>
   <action name="actionOpen_Dir">
+   <property name="icon">
+    <iconset theme="document-open-data"/>
+   </property>
    <property name="text">
     <string>Open Dir</string>
    </property>
