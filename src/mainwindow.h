@@ -55,6 +55,7 @@ private:
     RunningProcessesLabel* runningProcessesLabel;
     QLabel* languageLabel;
     QLabel* openedFileLabel;
+    QString currentStyle;
 
 signals:
     void setLanguage(const QString& code);

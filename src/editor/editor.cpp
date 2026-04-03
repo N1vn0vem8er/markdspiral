@@ -247,7 +247,9 @@ void Editor::handleResults()
 {
     QList<MarkdownHighlighter::SpellError> errors = watcher.result();
     highlighter->setErrorList(errors);
+    blockSignals(true);
     highlighter->rehighlight();
+    blockSignals(false);
 }
 
 void Editor::init()
@@ -256,7 +258,6 @@ void Editor::init()
     lineNumberArea = new LineNumberArea(this);
     connect(this, &Editor::blockCountChanged, this, &Editor::updateLineNumberWidth);
     connect(this, &Editor::updateRequest, this, &Editor::updateLineNumber);
-    connect(this, &Editor::textChanged, this, [this]{setSaved(false);});
     updateLineNumberWidth(0);
     defaultFormat = textCursor().charFormat();
     connect(&watcher, &QFutureWatcher<QList<MarkdownHighlighter::SpellError>>::finished, this, &Editor::handleResults);

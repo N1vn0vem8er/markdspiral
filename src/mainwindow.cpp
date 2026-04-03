@@ -122,7 +122,7 @@ void MainWindow::handleTabChanged(int index)
 void MainWindow::handleTextChanged()
 {
     if(!m_currentEditor) return;
-    QString html = QStringLiteral(R"(<html><body style="margin: 0; padding: 0;"><div class="markdown-body" style="width: 100%; height: 100%;">%1</div></body></html>)").arg(markdownToHtml(m_currentEditor->toPlainText()));
+    QString html = QStringLiteral(R"(<html><style>%1</style><body style="margin: 0; padding: 0;"><div class="markdown-body" style="width: 100%; min-height: 100vh;">%2</div></body></html>)").arg(currentStyle, markdownToHtml(m_currentEditor->toPlainText()));
     m_htmlCache[m_currentEditor] = html;
     ui->webEngineView->setHtml(html);
 }
@@ -172,6 +172,7 @@ void MainWindow::saveFile()
                 file.close();
                 editor->setSaved(true);
                 ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), file.fileName());
+                ui->statusbar->showMessage(tr("Saved: %1").arg(path), 5000);
             }
         }
         else
@@ -194,6 +195,7 @@ void MainWindow::saveFileAs()
                 file.close();
                 editor->setSaved(true);
                 editor->setPath(path);
+                ui->statusbar->showMessage(tr("Saved: %1").arg(path), 5000);
             }
         }
     }
@@ -317,20 +319,8 @@ void MainWindow::handleChangeStyle(int index)
     QFile file(path);
     if(file.open(QIODevice::ReadOnly))
     {
-        QString style = file.readAll();
+        currentStyle = file.readAll();
         file.close();
-        QString js = QString(R"(
-            var style = document.createElement('style');
-            style.innerHTML = `%1`;
-            document.head.appendChild(style);)"
-        ).arg(style.simplified());
-        QWebEngineScript script;
-        script.setSourceCode(js);
-        script.setName("markdownStyle");
-        script.setWorldId(QWebEngineScript::MainWorld);
-        script.setInjectionPoint(QWebEngineScript::DocumentReady);
-        script.setRunsOnSubFrames(true);
-        ui->webEngineView->page()->scripts().insert(script);
         handleTextChanged();
     }
 }
