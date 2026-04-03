@@ -223,6 +223,8 @@
     <property name="title">
      <string>About</string>
     </property>
+    <addaction name="actionAbout_Markdspiral"/>
+    <addaction name="actionAbout_Qt"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -470,6 +472,22 @@
   <action name="actionlanguage">
    <property name="text">
     <string>language</string>
+   </property>
+  </action>
+  <action name="actionAbout_Markdspiral">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::HelpAbout"/>
+   </property>
+   <property name="text">
+    <string>About Markdspiral</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::HelpAbout"/>
+   </property>
+   <property name="text">
+    <string>About Qt</string>
    </property>
   </action>
  </widget>

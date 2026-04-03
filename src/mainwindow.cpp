@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionShow_Git, &QAction::triggered, this, &MainWindow::showGitWidget);
     connect(ui->actionOpen_Dir, &QAction::triggered, this, &MainWindow::openDir);
     connect(ui->gitWidget, &GitWidget::openFile, this, &MainWindow::openTextFile);
+    connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
 
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
