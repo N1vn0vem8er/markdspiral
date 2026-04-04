@@ -58,6 +58,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->treeWidget, &FileSystemTree::openFile, this, &MainWindow::openTextFile);
     connect(ui->treeWidget, &FileSystemTree::gitAdd, ui->gitWidget, &GitWidget::gitAddFile);
     connect(ui->treeWidget, &FileSystemTree::gitDiff, ui->gitWidget, &GitWidget::gitFileDiff);
+    connect(ui->actionFind_Replace, &QAction::triggered, this, [this]{ui->searchWidget->setVisible(!ui->searchWidget->isVisible());});
+
+    ui->searchWidget->setVisible(false);
 
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
