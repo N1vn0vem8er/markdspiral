@@ -36,7 +36,8 @@ QList<FileSystemTree::MimeApplication> MimeFinderWorker::find(const QString &pat
         if(file.isOpen())
         {
             const QString text = file.readAll();
-            QRegularExpressionMatchIterator i = QRegularExpression(R"(MimeType=(.*))").globalMatch(text);
+            static QRegularExpression regex(R"(MimeType=(.*))");
+            QRegularExpressionMatchIterator i = regex.globalMatch(text);
             while(i.hasNext())
             {
                 QRegularExpressionMatch match = i.next();
@@ -54,15 +55,18 @@ QList<FileSystemTree::MimeApplication> MimeFinderWorker::find(const QString &pat
                     }
                     if(!app.mimeTypes.isEmpty())
                     {
-                        auto match = QRegularExpression("\\bName=(\\w+)").match(text);
+                        static QRegularExpression regex("\\bName=(\\w+)");
+                        auto match = regex.match(text);
                         if(match.hasMatch())
                             app.name = match.captured(1);
                         if(!app.name.isEmpty())
                         {
-                            auto match = QRegularExpression("\\bIcon=(\\w+)").match(text);
+                            static QRegularExpression regex1("\\bIcon=(\\w+)");
+                            auto match = regex1.match(text);
                             if(match.hasMatch())
                                 app.icon = match.captured(1);
-                            auto matchExec = QRegularExpression("\\bExec=(\\w+)").match(text);
+                            static QRegularExpression regex2("\\bExec=(\\w+)");
+                            auto matchExec = regex2.match(text);
                             if(matchExec.hasMatch())
                                 app.exec = matchExec.captured(1);
                             ret.append(app);
