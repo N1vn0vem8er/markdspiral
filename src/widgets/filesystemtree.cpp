@@ -27,6 +27,8 @@ FileSystemTree::~FileSystemTree()
 
 void FileSystemTree::open(const QString& path)
 {
+    if(model)
+        model->deleteLater();
     model = new QFileSystemModel(this);
     model->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files);
     model->setRootPath(path);

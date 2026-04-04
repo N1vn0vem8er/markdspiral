@@ -223,6 +223,7 @@
     <addaction name="actionSet_font"/>
     <addaction name="separator"/>
     <addaction name="actionShow_Git"/>
+    <addaction name="actionShow_Files"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -512,6 +513,11 @@
    </property>
    <property name="text">
     <string>Close All But This</string>
+   </property>
+  </action>
+  <action name="actionShow_Files">
+   <property name="text">
+    <string>Show Files</string>
    </property>
   </action>
  </widget>

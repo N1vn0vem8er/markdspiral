@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionAbout_Markdspiral, &QAction::triggered, this, &MainWindow::showAbout);
     connect(ui->actionClose_All, &QAction::triggered, this, [&]{while(ui->tabWidget->count() > 0) handleCloseTab(ui->tabWidget->currentIndex());});
     connect(ui->actionClose_All_But_This, &QAction::triggered, this, [this]{for(int i=ui->tabWidget->count()-1; i >= 0;--i) if(i != ui->tabWidget->currentIndex()) handleCloseTab(i);});
+    connect(ui->actionShow_Files, &QAction::triggered, this, &MainWindow::showFilesWidget);
 
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
@@ -380,6 +381,7 @@ void MainWindow::openDir()
     if(!path.isEmpty())
     {
         ui->gitWidget->setRepositoryPath(path);
+        ui->treeWidget->open(path);
     }
 }
 
@@ -395,4 +397,17 @@ void MainWindow::openTextFile(const QString &path)
 void MainWindow::showAbout()
 {
     QMessageBox::about(this, tr("About Markdspiral"), tr(R"(<h3>About Markdspiral</h3><p>Markdspiral is a markdown editor.<p>Version: %1</p><p>License: <a href="%2">GPL 3</a></p>)").arg(VERSION, LICENSELINK));
+}
+
+void MainWindow::showFilesWidget()
+{
+    if(ui->stackedWidget->currentIndex() == 1 && ui->stackedWidget->isVisible())
+    {
+        ui->stackedWidget->setVisible(false);
+    }
+    else
+    {
+        ui->stackedWidget->setVisible(true);
+        ui->stackedWidget->setCurrentIndex(1);
+    }
 }

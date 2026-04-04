@@ -46,6 +46,7 @@ private slots:
     void openDir();
     void openTextFile(const QString& path);
     void showAbout();
+    void showFilesWidget();
 
 private:
     QMap<Editor*, QString> m_htmlCache;
