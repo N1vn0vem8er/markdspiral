@@ -55,6 +55,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionClose_All, &QAction::triggered, this, [&]{while(ui->tabWidget->count() > 0) handleCloseTab(ui->tabWidget->currentIndex());});
     connect(ui->actionClose_All_But_This, &QAction::triggered, this, [this]{for(int i=ui->tabWidget->count()-1; i >= 0;--i) if(i != ui->tabWidget->currentIndex()) handleCloseTab(i);});
     connect(ui->actionShow_Files, &QAction::triggered, this, &MainWindow::showFilesWidget);
+    connect(ui->treeWidget, &FileSystemTree::openFile, this, &MainWindow::openTextFile);
+    connect(ui->treeWidget, &FileSystemTree::gitAdd, ui->gitWidget, &GitWidget::gitAddFile);
+    connect(ui->treeWidget, &FileSystemTree::gitDiff, ui->gitWidget, &GitWidget::gitFileDiff);
 
     handleTabChanged(ui->tabWidget->currentIndex());
     ui->splitter->setStretchFactor(1, 1);
