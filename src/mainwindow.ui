@@ -22,7 +22,7 @@
       </property>
       <widget class="QStackedWidget" name="stackedWidget">
        <widget class="GitWidget" name="gitWidget"/>
-       <widget class="QWidget" name="page_4"/>
+       <widget class="FileSystemTree" name="treeWidget"/>
       </widget>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
@@ -525,6 +525,12 @@
    <class>GitWidget</class>
    <extends>QWidget</extends>
    <header>widgets/gitwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FileSystemTree</class>
+   <extends>QWidget</extends>
+   <header>widgets/filesystemtree.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

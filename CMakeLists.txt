@@ -26,6 +26,9 @@ qt_add_executable(markdspiral
     src/processmanager.h src/processmanager.cpp
     src/widgets/runningprocesseslabel.h src/widgets/runningprocesseslabel.cpp
     src/editor/dictionaryprovider.h src/editor/dictionaryprovider.cpp
+    src/widgets/filesystemtree.h src/widgets/filesystemtree.cpp
+    src/utils/mimefinderworker.h src/utils/mimefinderworker.cpp
+    src/widgets/textinputdialog.ui src/widgets/textinputdialog.h src/widgets/textinputdialog.cpp
 )
 
 include_directories(src widgets)
