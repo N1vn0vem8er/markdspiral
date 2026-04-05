@@ -1,11 +1,10 @@
 #include "markdownhighlighter.h"
-#include "editor.h"
 
 MarkdownHighlighter::MarkdownHighlighter(QTextDocument *parent) : QSyntaxHighlighter(parent)
 {
     HighlightingRule rule;
     headerFormat.setFontWeight(QFont::Bold);
-    headerFormat.setForeground(Qt::darkBlue);
+    headerFormat.setForeground(Qt::lightGray);
     rule.pattern = QRegularExpression(QStringLiteral("^#{1,6}\\s.*"));
     rule.pattern.setPatternOptions(QRegularExpression::MultilineOption);
     rule.format = headerFormat;
