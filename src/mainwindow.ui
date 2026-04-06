@@ -319,7 +319,18 @@
      </widget>
      <addaction name="menuSelect_Language"/>
     </widget>
-    <addaction name="actionGit"/>
+    <widget class="QMenu" name="menuGit">
+     <property name="title">
+      <string>Git</string>
+     </property>
+     <addaction name="actionCommit"/>
+     <addaction name="actionLog"/>
+     <addaction name="actionStatus"/>
+     <addaction name="separator"/>
+     <addaction name="actionPush"/>
+     <addaction name="actionPull"/>
+    </widget>
+    <addaction name="menuGit"/>
     <addaction name="menuSpell_Checking"/>
    </widget>
    <addaction name="menuFile"/>
@@ -526,11 +537,6 @@
     <string>Set font</string>
    </property>
   </action>
-  <action name="actionGit">
-   <property name="text">
-    <string>Git</string>
-   </property>
-  </action>
   <action name="actionShow_Git">
    <property name="icon">
     <iconset theme="git"/>
@@ -590,6 +596,31 @@
   <action name="actionShow_Files">
    <property name="text">
     <string>Show Files</string>
+   </property>
+  </action>
+  <action name="actionCommit">
+   <property name="text">
+    <string>Commit</string>
+   </property>
+  </action>
+  <action name="actionLog">
+   <property name="text">
+    <string>Log</string>
+   </property>
+  </action>
+  <action name="actionStatus">
+   <property name="text">
+    <string>Status</string>
+   </property>
+  </action>
+  <action name="actionPush">
+   <property name="text">
+    <string>Push</string>
+   </property>
+  </action>
+  <action name="actionPull">
+   <property name="text">
+    <string>Pull</string>
    </property>
   </action>
  </widget>

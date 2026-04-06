@@ -29,6 +29,8 @@ public:
     void increaseFontSize();
     void decreaseFontSize();
     void setFontSize(int size);
+    bool getSaveWarningEnabled() const;
+    void setSaveWarningEnabled(bool newSaveWarningEnabled);
 
 public slots:
     void setLanguage(const QString& code);

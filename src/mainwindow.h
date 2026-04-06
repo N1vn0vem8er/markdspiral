@@ -47,12 +47,14 @@ private slots:
     void openTextFile(const QString& path);
     void showAbout();
     void showFilesWidget();
+    void addTab(QWidget* widget, const QString& title);
+    void openInEditor(const QString& text, const QString& title, bool readOnly = true, bool spellChecking = false, bool disableSaveWarning = true);
 
 private:
     QMap<Editor*, QString> m_htmlCache;
     Editor* m_currentEditor = nullptr;
     Ui::MainWindow *ui;
-    void addEditor(const QString &text, const QString &name, const QString &path);
+    Editor *addEditor(const QString &text, const QString &name, const QString &path);
     QString markdownToHtml(const QString& markdown);
     RunningProcessesLabel* runningProcessesLabel;
     QLabel* languageLabel;

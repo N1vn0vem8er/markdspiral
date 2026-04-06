@@ -59,6 +59,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->treeWidget, &FileSystemTree::gitAdd, ui->gitWidget, &GitWidget::gitAddFile);
     connect(ui->treeWidget, &FileSystemTree::gitDiff, ui->gitWidget, &GitWidget::gitFileDiff);
     connect(ui->actionFind_Replace, &QAction::triggered, this, [this]{ui->searchWidget->setVisible(!ui->searchWidget->isVisible());});
+    connect(ui->gitWidget, &GitWidget::addTab, this, &MainWindow::addTab);
+    connect(ui->actionCommit, &QAction::triggered, ui->gitWidget, &GitWidget::openGitCommit);
+    connect(ui->actionLog, &QAction::triggered, ui->gitWidget, &GitWidget::gitLog);
+    connect(ui->gitWidget, &GitWidget::openInEditor, this, &MainWindow::openInEditor);
 
     ui->searchWidget->setVisible(false);
 
@@ -86,7 +90,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::addEditor(const QString& text, const QString& name, const QString& path)
+Editor* MainWindow::addEditor(const QString& text, const QString& name, const QString& path)
 {
     Editor* editor = new Editor(ui->tabWidget);
     editor->setPath(path);
@@ -96,6 +100,7 @@ void MainWindow::addEditor(const QString& text, const QString& name, const QStri
     connect(this, &MainWindow::setLanguage, editor, &Editor::setLanguage);
     ui->tabWidget->addTab(editor, name);
     ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
+    return editor;
 }
 
 QString MainWindow::markdownToHtml(const QString &markdown)
@@ -416,4 +421,17 @@ void MainWindow::showFilesWidget()
         ui->stackedWidget->setVisible(true);
         ui->stackedWidget->setCurrentIndex(1);
     }
+}
+
+void MainWindow::addTab(QWidget *widget, const QString &title)
+{
+    ui->tabWidget->addTab(widget, title);
+    ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
+}
+
+void MainWindow::openInEditor(const QString &text, const QString &title, bool readOnly, bool spellChecking, bool disableSaveWarning)
+{
+    Editor* editor = addEditor(text, title, "");
+    editor->setReadOnly(readOnly);
+    editor->setSaveWarningEnabled(!disableSaveWarning);
 }

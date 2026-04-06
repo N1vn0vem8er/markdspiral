@@ -29,6 +29,7 @@ public:
     QStringList getBranches() const;
     void gitFileDiff(const QString& filePath);
     void gitAddFile(const QString& filePath);
+    void openGitCommit();
 
 public slots:
     void setBranch(const QString& name);
@@ -61,7 +62,6 @@ private slots:
     void openAdded(const QModelIndex& index);
     void openChanged(const QModelIndex& index);
     void openUntracked(const QModelIndex& index);
-    void openGitCommit();
     void gitCommit(const QString& title, const QString& description);
 
 signals:

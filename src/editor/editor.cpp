@@ -272,6 +272,16 @@ void Editor::updateLineNumber(const QRect &rect, int dy)
         updateLineNumberWidth(0);
 }
 
+bool Editor::getSaveWarningEnabled() const
+{
+    return saveWarningEnabled;
+}
+
+void Editor::setSaveWarningEnabled(bool newSaveWarningEnabled)
+{
+    saveWarningEnabled = newSaveWarningEnabled;
+}
+
 
 Editor::LineNumberArea::LineNumberArea(Editor *parent) : QWidget(parent), textEditor(parent)
 {
