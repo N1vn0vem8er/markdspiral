@@ -326,9 +326,11 @@
      <addaction name="actionCommit"/>
      <addaction name="actionLog"/>
      <addaction name="actionStatus"/>
+     <addaction name="actionBranch"/>
      <addaction name="separator"/>
      <addaction name="actionPush"/>
      <addaction name="actionPull"/>
+     <addaction name="actionFetch"/>
     </widget>
     <addaction name="menuGit"/>
     <addaction name="menuSpell_Checking"/>
@@ -621,6 +623,16 @@
   <action name="actionPull">
    <property name="text">
     <string>Pull</string>
+   </property>
+  </action>
+  <action name="actionFetch">
+   <property name="text">
+    <string>Fetch</string>
+   </property>
+  </action>
+  <action name="actionBranch">
+   <property name="text">
+    <string>Branch</string>
    </property>
   </action>
  </widget>

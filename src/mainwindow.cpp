@@ -9,6 +9,7 @@
 #include <QWebEngineScript>
 #include <QWebEngineScriptCollection>
 #include <QMessageBox>
+#include <widgets/gitbranchdialog.h>
 
 #define VERSION "0.1.0"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
@@ -63,6 +64,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionCommit, &QAction::triggered, ui->gitWidget, &GitWidget::openGitCommit);
     connect(ui->actionLog, &QAction::triggered, ui->gitWidget, &GitWidget::gitLog);
     connect(ui->gitWidget, &GitWidget::openInEditor, this, &MainWindow::openInEditor);
+    connect(ui->actionStatus, &QAction::triggered, ui->gitWidget, &GitWidget::gitStatus);
+    connect(ui->actionPull, &QAction::triggered, ui->gitWidget, &GitWidget::gitPull);
+    connect(ui->actionPush, &QAction::triggered, ui->gitWidget, &GitWidget::gitPush);
+    connect(ui->actionFetch, &QAction::triggered, ui->gitWidget, &GitWidget::gitFetch);
+    connect(ui->actionBranch, &QAction::triggered, this, &MainWindow::openBranchDialog);
 
     ui->searchWidget->setVisible(false);
 
@@ -434,4 +440,12 @@ void MainWindow::openInEditor(const QString &text, const QString &title, bool re
     Editor* editor = addEditor(text, title, "");
     editor->setReadOnly(readOnly);
     editor->setSaveWarningEnabled(!disableSaveWarning);
+}
+
+void MainWindow::openBranchDialog()
+{
+    GitBranchDialog* dialog = new GitBranchDialog(ui->gitWidget->getRepoPath(), ui->gitWidget->getBranches(), this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    connect(dialog, &GitBranchDialog::setBranch, ui->gitWidget, &GitWidget::setBranch);
+    dialog->show();
 }

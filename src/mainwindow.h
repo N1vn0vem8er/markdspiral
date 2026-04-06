@@ -49,6 +49,7 @@ private slots:
     void showFilesWidget();
     void addTab(QWidget* widget, const QString& title);
     void openInEditor(const QString& text, const QString& title, bool readOnly = true, bool spellChecking = false, bool disableSaveWarning = true);
+    void openBranchDialog();
 
 private:
     QMap<Editor*, QString> m_htmlCache;
