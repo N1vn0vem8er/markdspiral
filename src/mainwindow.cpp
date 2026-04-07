@@ -75,6 +75,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionPrint, &QAction::triggered, this, &MainWindow::print);
     connect(ui->forwardButton, &QPushButton::clicked, this, &MainWindow::goForwardInPreview);
     connect(ui->backButton, &QPushButton::clicked, this, &MainWindow::goBackInPreview);
+    connect(ui->actionFull_Screen, &QAction::triggered, this, &MainWindow::fullScreen);
 
     MarkdownWebPage *page = new MarkdownWebPage(this);
     ui->webEngineView->setPage(page);
@@ -521,4 +522,12 @@ void MainWindow::goForwardInPreview()
         previewHistoryIndex++;
         renderPreviewFile(previewHistory[previewHistoryIndex]);
     }
+}
+
+void MainWindow::fullScreen()
+{
+    if(windowState().testFlag(Qt::WindowFullScreen))
+        showNormal();
+    else
+        showFullScreen();
 }

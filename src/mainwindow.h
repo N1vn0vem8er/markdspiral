@@ -54,6 +54,7 @@ private slots:
     void handleLocalLink(const QUrl& url);
     void goBackInPreview();
     void goForwardInPreview();
+    void fullScreen();
 
 private:
     QMap<Editor*, QString> m_htmlCache;
