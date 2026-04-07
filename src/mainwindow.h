@@ -51,6 +51,9 @@ private slots:
     void openInEditor(const QString& text, const QString& title, bool readOnly = true, bool spellChecking = false, bool disableSaveWarning = true);
     void openBranchDialog();
     void print();
+    void handleLocalLink(const QUrl& url);
+    void goBackInPreview();
+    void goForwardInPreview();
 
 private:
     QMap<Editor*, QString> m_htmlCache;
@@ -62,6 +65,9 @@ private:
     QLabel* languageLabel;
     QLabel* openedFileLabel;
     QString currentStyle;
+    void renderPreviewFile(const QString& filePath);
+    QStringList previewHistory;
+    int previewHistoryIndex = -1;
 
 signals:
     void setLanguage(const QString& code);

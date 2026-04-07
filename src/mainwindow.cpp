@@ -3,6 +3,7 @@
 #include "editor/editor.h"
 #include "processmanager.h"
 #include "ui_mainwindow.h"
+#include "widgets/markdownwebpage.h"
 #include <QFileDialog>
 #include <QFontDialog>
 #include <QSettings>
@@ -72,6 +73,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionFetch, &QAction::triggered, ui->gitWidget, &GitWidget::gitFetch);
     connect(ui->actionBranch, &QAction::triggered, this, &MainWindow::openBranchDialog);
     connect(ui->actionPrint, &QAction::triggered, this, &MainWindow::print);
+    connect(ui->forwardButton, &QPushButton::clicked, this, &MainWindow::goForwardInPreview);
+    connect(ui->backButton, &QPushButton::clicked, this, &MainWindow::goBackInPreview);
+
+    MarkdownWebPage *page = new MarkdownWebPage(this);
+    ui->webEngineView->setPage(page);
+    connect(page, &MarkdownWebPage::localLinkClicked, this, &MainWindow::handleLocalLink);
 
     ui->searchWidget->setVisible(false);
 
@@ -124,6 +131,16 @@ QString MainWindow::markdownToHtml(const QString &markdown)
     return html;
 }
 
+void MainWindow::renderPreviewFile(const QString &filePath)
+{
+    QFile file(filePath);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+    QString content = QString::fromUtf8(file.readAll());
+    file.close();
+    QString html = QStringLiteral(R"(<html><style>%1</style><body style="margin: 0; padding: 0;"><div class="markdown-body" style="width: 100%; min-height: 100vh;">%2</div></body></html>)").arg(currentStyle, markdownToHtml(content));
+    ui->webEngineView->setHtml(html, QUrl::fromLocalFile(filePath));
+}
+
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     for(int i = 0; i < ui->tabWidget->count(); i++)
@@ -137,10 +154,14 @@ void MainWindow::handleTabChanged(int index)
 {
     if(index == -1) return;
     m_currentEditor = qobject_cast<Editor*>(ui->tabWidget->widget(index));
+
+    previewHistory.clear();
+    previewHistoryIndex = -1;
+
     if(m_currentEditor)
     {
         if(m_htmlCache.contains(m_currentEditor))
-            ui->webEngineView->setHtml(m_htmlCache[m_currentEditor]);
+            ui->webEngineView->setHtml(m_htmlCache[m_currentEditor], QUrl::fromLocalFile(m_currentEditor->getPath()));
         else
             handleTextChanged();
         openedFileLabel->setText(m_currentEditor->getPath());
@@ -152,7 +173,7 @@ void MainWindow::handleTextChanged()
     if(!m_currentEditor) return;
     QString html = QStringLiteral(R"(<html><style>%1</style><body style="margin: 0; padding: 0;"><div class="markdown-body" style="width: 100%; min-height: 100vh;">%2</div></body></html>)").arg(currentStyle, markdownToHtml(m_currentEditor->toPlainText()));
     m_htmlCache[m_currentEditor] = html;
-    ui->webEngineView->setHtml(html);
+    ui->webEngineView->setHtml(html, QUrl::fromLocalFile(m_currentEditor->getPath()));
 }
 
 void MainWindow::handleCloseTab(int index)
@@ -464,4 +485,40 @@ void MainWindow::print()
     }
     else
         delete printer;
+}
+
+void MainWindow::handleLocalLink(const QUrl &url)
+{
+    QString filePath = url.toLocalFile();
+    QFileInfo fileInfo(filePath);
+    if(!fileInfo.exists() || !fileInfo.isFile()) return;
+    if(previewHistoryIndex < previewHistory.size() - 1)
+        previewHistory.erase(previewHistory.begin() + previewHistoryIndex + 1, previewHistory.end());
+    previewHistory.append(filePath);
+    previewHistoryIndex++;
+    renderPreviewFile(filePath);
+}
+
+void MainWindow::goBackInPreview()
+{
+    if(previewHistoryIndex > 0)
+    {
+        previewHistoryIndex--;
+        renderPreviewFile(previewHistory[previewHistoryIndex]);
+    }
+    else if(previewHistoryIndex == 0)
+    {
+        previewHistoryIndex--;
+        if(m_currentEditor && m_htmlCache.contains(m_currentEditor))
+            ui->webEngineView->setHtml(m_htmlCache[m_currentEditor], QUrl::fromLocalFile(m_currentEditor->getPath()));
+    }
+}
+
+void MainWindow::goForwardInPreview()
+{
+    if(previewHistoryIndex < previewHistory.size() - 1)
+    {
+        previewHistoryIndex++;
+        renderPreviewFile(previewHistory[previewHistoryIndex]);
+    }
 }
