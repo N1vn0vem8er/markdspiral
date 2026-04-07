@@ -9,6 +9,8 @@
 #include <QWebEngineScript>
 #include <QWebEngineScriptCollection>
 #include <QMessageBox>
+#include <QPrinter>
+#include <QPrintDialog>
 #include <widgets/gitbranchdialog.h>
 
 #define VERSION "0.1.0"
@@ -69,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionPush, &QAction::triggered, ui->gitWidget, &GitWidget::gitPush);
     connect(ui->actionFetch, &QAction::triggered, ui->gitWidget, &GitWidget::gitFetch);
     connect(ui->actionBranch, &QAction::triggered, this, &MainWindow::openBranchDialog);
+    connect(ui->actionPrint, &QAction::triggered, this, &MainWindow::print);
 
     ui->searchWidget->setVisible(false);
 
@@ -448,4 +451,17 @@ void MainWindow::openBranchDialog()
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     connect(dialog, &GitBranchDialog::setBranch, ui->gitWidget, &GitWidget::setBranch);
     dialog->show();
+}
+
+void MainWindow::print()
+{
+    QPrinter* printer = new QPrinter(QPrinter::HighResolution);
+    QPrintDialog dialog(printer, this);
+    if(dialog.exec() == QDialog::Accepted)
+    {
+        connect(ui->webEngineView, &QWebEngineView::printFinished, this, [printer]{delete printer;}, Qt::SingleShotConnection);
+        ui->webEngineView->print(printer);
+    }
+    else
+        delete printer;
 }
