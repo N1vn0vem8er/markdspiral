@@ -76,6 +76,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->forwardButton, &QPushButton::clicked, this, &MainWindow::goForwardInPreview);
     connect(ui->backButton, &QPushButton::clicked, this, &MainWindow::goBackInPreview);
     connect(ui->actionFull_Screen, &QAction::triggered, this, &MainWindow::fullScreen);
+    connect(ui->homeButton, &QPushButton::clicked, this, &MainWindow::handleTextChanged);
 
     MarkdownWebPage *page = new MarkdownWebPage(this);
     ui->webEngineView->setPage(page);
