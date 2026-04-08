@@ -154,7 +154,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::handleTabChanged(int index)
 {
-    if(index == -1) return;
+    if(index == -1)
+    {
+        m_currentEditor = nullptr;
+        return;
+    }
     m_currentEditor = qobject_cast<Editor*>(ui->tabWidget->widget(index));
 
     previewHistory.clear();
