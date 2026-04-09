@@ -101,10 +101,15 @@ MainWindow::MainWindow(QWidget *parent)
     }
     QSettings settings("markdspiral");
     languageLabel->setText(settings.value("spellcheck.language").toString());
+    restoreGeometry(settings.value("geometry").toByteArray());
+    restoreState(settings.value("state").toByteArray());
 }
 
 MainWindow::~MainWindow()
 {
+    QSettings settings("markdspiral");
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("state", saveState());
     delete ui;
 }
 
