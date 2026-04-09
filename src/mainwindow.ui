@@ -604,6 +604,9 @@
    </property>
   </action>
   <action name="actionCommit">
+   <property name="icon">
+    <iconset theme="vcs-commit"/>
+   </property>
    <property name="text">
     <string>Commit</string>
    </property>
@@ -619,11 +622,17 @@
    </property>
   </action>
   <action name="actionPush">
+   <property name="icon">
+    <iconset theme="vcs-push"/>
+   </property>
    <property name="text">
     <string>Push</string>
    </property>
   </action>
   <action name="actionPull">
+   <property name="icon">
+    <iconset theme="vcs-pull"/>
+   </property>
    <property name="text">
     <string>Pull</string>
    </property>
@@ -634,6 +643,9 @@
    </property>
   </action>
   <action name="actionBranch">
+   <property name="icon">
+    <iconset theme="vcs-branch"/>
+   </property>
    <property name="text">
     <string>Branch</string>
    </property>
