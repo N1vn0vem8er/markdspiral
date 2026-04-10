@@ -78,6 +78,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionFull_Screen, &QAction::triggered, this, &MainWindow::fullScreen);
     connect(ui->homeButton, &QPushButton::clicked, this, &MainWindow::handleTextChanged);
     connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::quit);
+    connect(ui->actionShow_Preview, &QAction::triggered, this, [this](bool val){ui->previewWidget->setVisible(val);});
 
     MarkdownWebPage *page = new MarkdownWebPage(this);
     ui->webEngineView->setPage(page);
@@ -106,6 +107,8 @@ MainWindow::MainWindow(QWidget *parent)
     restoreState(settings.value("state").toByteArray());
     ui->stackedWidget->setVisible(settings.value("leftWidget.visible", false).toBool());
     ui->stackedWidget->setCurrentIndex(settings.value("leftWidget.index", 0).toInt());
+    ui->actionShow_Preview->setChecked(settings.value("previewWidget.visible", true).toBool());
+    ui->previewWidget->setVisible(ui->actionShow_Preview->isChecked());
 }
 
 MainWindow::~MainWindow()
@@ -161,6 +164,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     settings.setValue("state", saveState());
     settings.setValue("leftWidget.visible", ui->stackedWidget->isVisible());
     settings.setValue("leftWidget.index", ui->stackedWidget->currentIndex());
+    settings.setValue("previewWidget.visible", ui->previewWidget->isVisible());
     QMainWindow::closeEvent(event);
 }
 

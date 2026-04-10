@@ -107,7 +107,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="widget" native="true">
+      <widget class="QWidget" name="previewWidget" native="true">
        <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1">
         <property name="spacing">
          <number>4</number>
@@ -297,6 +297,7 @@
     <addaction name="separator"/>
     <addaction name="actionShow_Git"/>
     <addaction name="actionShow_Files"/>
+    <addaction name="actionShow_Preview"/>
     <addaction name="separator"/>
     <addaction name="actionFull_Screen"/>
    </widget>
@@ -544,6 +545,9 @@
    </property>
   </action>
   <action name="actionShow_Git">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset theme="git"/>
    </property>
@@ -600,6 +604,9 @@
    </property>
   </action>
   <action name="actionShow_Files">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Show Files</string>
    </property>
@@ -679,6 +686,17 @@
    </property>
    <property name="text">
     <string>Enable</string>
+   </property>
+  </action>
+  <action name="actionShow_Preview">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Preview</string>
    </property>
   </action>
  </widget>
