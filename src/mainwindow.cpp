@@ -104,13 +104,12 @@ MainWindow::MainWindow(QWidget *parent)
     languageLabel->setText(settings.value("spellcheck.language").toString());
     restoreGeometry(settings.value("geometry").toByteArray());
     restoreState(settings.value("state").toByteArray());
+    ui->stackedWidget->setVisible(settings.value("leftWidget.visible", false).toBool());
+    ui->stackedWidget->setCurrentIndex(settings.value("leftWidget.index", 0).toInt());
 }
 
 MainWindow::~MainWindow()
 {
-    QSettings settings("markdspiral");
-    settings.setValue("geometry", saveGeometry());
-    settings.setValue("state", saveState());
     delete ui;
 }
 
@@ -157,6 +156,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
     {
         handleCloseTab(i);
     }
+    QSettings settings("markdspiral");
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("state", saveState());
+    settings.setValue("leftWidget.visible", ui->stackedWidget->isVisible());
+    settings.setValue("leftWidget.index", ui->stackedWidget->currentIndex());
     QMainWindow::closeEvent(event);
 }
 
