@@ -321,6 +321,7 @@
       </property>
      </widget>
      <addaction name="menuSelect_Language"/>
+     <addaction name="actionEnableSpellcheck"/>
     </widget>
     <widget class="QMenu" name="menuGit">
      <property name="title">
@@ -670,6 +671,14 @@
    </property>
    <property name="shortcut">
     <string>F11</string>
+   </property>
+  </action>
+  <action name="actionEnableSpellcheck">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Enable</string>
    </property>
   </action>
  </widget>

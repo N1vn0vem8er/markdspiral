@@ -34,6 +34,7 @@ public:
 
 public slots:
     void setLanguage(const QString& code);
+    void setSpellCheckEnabled(bool val);
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
@@ -70,6 +71,7 @@ private:
     QString languageCode {"en_US"};
     QString orginalContent;
     bool saveWarningEnabled {true};
+    bool spellCheckEnabled {true};
 
 signals:
     void fontSizeChanged(int size);

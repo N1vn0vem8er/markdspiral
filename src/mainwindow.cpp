@@ -119,9 +119,11 @@ Editor* MainWindow::addEditor(const QString& text, const QString& name, const QS
     Editor* editor = new Editor(ui->tabWidget);
     editor->setPath(path);
     editor->setPlainText(text);
+    editor->setSpellCheckEnabled(ui->actionEnableSpellcheck->isChecked());
     editor->setLanguage(QSettings("markdspiral").value("spellcheck.language").toString());
     connect(editor, &Editor::textChanged, this, &MainWindow::handleTextChanged);
     connect(this, &MainWindow::setLanguage, editor, &Editor::setLanguage);
+    connect(ui->actionEnableSpellcheck, &QAction::triggered, editor, &Editor::setSpellCheckEnabled);
     ui->tabWidget->addTab(editor, name);
     ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
     return editor;

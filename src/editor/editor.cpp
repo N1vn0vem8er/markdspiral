@@ -158,6 +158,12 @@ void Editor::setLanguage(const QString &code)
     languageCode = code;
 }
 
+void Editor::setSpellCheckEnabled(bool val)
+{
+    spellCheckEnabled = val;
+    highlighter->setErrorList({});
+}
+
 void Editor::resizeEvent(QResizeEvent *event)
 {
     QPlainTextEdit::resizeEvent(event);
@@ -181,7 +187,7 @@ void Editor::wheelEvent(QWheelEvent *event)
 
 void Editor::startAsyncCheck()
 {
-    if(watcher.isRunning()) return;
+    if(!spellCheckEnabled || watcher.isRunning()) return;
 
     auto checkText = [](const QString& text, std::shared_ptr<nuspell::Dictionary> dict){
         QList<MarkdownHighlighter::SpellError> errors;
