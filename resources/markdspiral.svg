@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="31.999998"
+   height="31.999998"
+   viewBox="0 0 8.466666 8.4666661"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1">
+    <g
+       id="g3">
+      <rect
+         style="fill:#000000;stroke:#ffffff;stroke-width:0;stroke-opacity:0"
+         id="rect1"
+         width="2.009582"
+         height="0.33000001"
+         x="0"
+         y="-1.110223e-16"
+         ry="1.0115166e-16" />
+      <rect
+         style="fill:#000000;stroke:#ffffff;stroke-width:0;stroke-opacity:0"
+         id="rect2"
+         width="0.45302722"
+         height="8.1366663"
+         x="0"
+         y="0.16500001"
+         ry="1.5355172e-16" />
+      <rect
+         style="fill:#000000;stroke:#ffffff;stroke-width:0;stroke-opacity:0"
+         id="rect3"
+         width="2.0211983"
+         height="0.33000001"
+         x="0"
+         y="8.1366663"
+         ry="1.1510349e-16" />
+    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#00014a;stroke-width:0.264583"
+       id="path3"
+       d="M 3.1595745,1.6146353 C 3.3110015,1.7485902 3.0537148,1.8848445 2.9369327,1.866317 2.6204606,1.8161085 2.5457831,1.4192565 2.6562113,1.1693518 2.8537413,0.72233091 3.4324649,0.63594764 3.8274998,0.85959051 4.4072293,1.1877954 4.5070436,1.9693835 4.166301,2.5052024 3.7121447,3.2193647 2.7214416,3.3325212 2.0463657,2.8730434 1.1968516,2.2948375 1.0704299,1.0923937 1.6494848,0.27878479 2.3507979,-0.70660458 3.766332,-0.84625474 4.7180668,-0.14713594 5.8396534,0.67675138 5.9925156,2.3061623 5.1730274,3.3957694 4.2268958,4.653764 2.3831089,4.8198313 1.1557987,3.8797699 -0.23874917,2.8116123 -0.41801883,0.75311203 0.64275839,-0.61178225 1.8327901,-2.1429874 4.1062423,-2.3354589 5.6086339,-1.1538624 7.2765733,0.15793376 7.4822473,2.646513 6.1797539,4.2863365"
+       transform="matrix(1.0311635,0,0,1.0311635,0.63076717,2.9552524)" />
+    <g
+       id="g6"
+       transform="matrix(-1,0,0,1,8.4666667,0)">
+      <rect
+         style="fill:#000000;stroke:#ffffff;stroke-width:0;stroke-opacity:0"
+         id="rect4"
+         width="2.009582"
+         height="0.33000001"
+         x="0"
+         y="-1.110223e-16"
+         ry="1.0115166e-16" />
+      <rect
+         style="fill:#000000;stroke:#ffffff;stroke-width:0;stroke-opacity:0"
+         id="rect5"
+         width="0.45302722"
+         height="8.1366663"
+         x="0"
+         y="0.16500001"
+         ry="1.5355172e-16" />
+      <rect
+         style="fill:#000000;stroke:#ffffff;stroke-width:0;stroke-opacity:0"
+         id="rect6"
+         width="2.0211983"
+         height="0.33000001"
+         x="0"
+         y="8.1366663"
+         ry="1.1510349e-16" />
+    </g>
+  </g>
+</svg>

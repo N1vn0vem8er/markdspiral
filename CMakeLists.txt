@@ -30,6 +30,7 @@ qt_add_executable(markdspiral
     src/utils/mimefinderworker.h src/utils/mimefinderworker.cpp
     src/widgets/textinputdialog.ui src/widgets/textinputdialog.h src/widgets/textinputdialog.cpp
     src/widgets/markdownwebpage.h src/widgets/markdownwebpage.cpp
+    resources/icons.qrc
 )
 
 include_directories(src widgets)
