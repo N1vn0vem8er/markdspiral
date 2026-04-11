@@ -1,0 +1,9 @@
+[Desktop Entry]
+Exec=markdspiral
+Name=Markdspiral
+Icon=markdspiral
+Type=Application
+Comment=Markdown editor
+Keywords=markdown;programming;programmer;developer;developing;editor;
+Categories=Utility;Development;
+MimeType=text/markdown
