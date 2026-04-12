@@ -6,6 +6,5 @@
         <file>css/github/github-markdown-dark-dimmed.css</file>
         <file>css/github/github-markdown-dark-high-contrast.css</file>
         <file>css/github/github-markdown-light-colorblind.css</file>
-        <file>css/gitlab/gitlab.css</file>
     </qresource>
 </RCC>
