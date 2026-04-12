@@ -28,6 +28,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->statusbar->addPermanentWidget(languageLabel);
     openedFileLabel = new QLabel(ui->statusbar);
     ui->statusbar->addPermanentWidget(openedFileLabel);
+    branchButton = new QPushButton(ui->statusbar);
+    branchButton->setVisible(false);
+    branchButton->setFlat(true);
+    ui->statusbar->addPermanentWidget(branchButton);
+    connect(branchButton, &QPushButton::clicked, this, &MainWindow::openBranchDialog);
 
     connect(ProcessManager::getInstance(), &ProcessManager::processAdded, runningProcessesLabel, &RunningProcessesLabel::addProcess);
     connect(ProcessManager::getInstance(), &ProcessManager::processRemoved, runningProcessesLabel, &RunningProcessesLabel::removeProcess);
@@ -79,6 +84,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->homeButton, &QPushButton::clicked, this, &MainWindow::handleTextChanged);
     connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::quit);
     connect(ui->actionShow_Preview, &QAction::triggered, this, [this](bool val){ui->previewWidget->setVisible(val);});
+    connect(ui->gitWidget, &GitWidget::branchNameChanged, this, [this](const QString& name){branchButton->setText(name);});
 
     MarkdownWebPage *page = new MarkdownWebPage(this);
     ui->webEngineView->setPage(page);
@@ -444,6 +450,11 @@ void MainWindow::openDir()
     if(!path.isEmpty())
     {
         ui->gitWidget->setRepositoryPath(path);
+        if(ui->gitWidget->hasRepository())
+        {
+            branchButton->setText(ui->gitWidget->getBranchName());
+            branchButton->setVisible(true);
+        }
         ui->treeWidget->open(path);
     }
 }

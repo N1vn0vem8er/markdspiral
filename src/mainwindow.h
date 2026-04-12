@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <md4c-html.h>
 #include <md4c.h>
+#include <qpushbutton.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -68,7 +69,8 @@ private:
     QString currentStyle;
     void renderPreviewFile(const QString& filePath);
     QStringList previewHistory;
-    int previewHistoryIndex = -1;
+    int previewHistoryIndex {-1};
+    QPushButton* branchButton {nullptr};
 
 signals:
     void setLanguage(const QString& code);
