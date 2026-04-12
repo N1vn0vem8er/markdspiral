@@ -228,6 +228,7 @@ void MainWindow::handleCloseTab(int index)
         }
         ui->tabWidget->removeTab(index);
         widget->deleteLater();
+        openedFileLabel->clear();
     }
 }
 
@@ -277,6 +278,7 @@ void MainWindow::saveFileAs()
                 editor->setSaved(true);
                 editor->setPath(path);
                 ui->statusbar->showMessage(tr("Saved: %1").arg(path), 5000);
+                ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), QFileInfo(path).fileName());
             }
         }
     }
