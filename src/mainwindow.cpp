@@ -85,6 +85,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::quit);
     connect(ui->actionShow_Preview, &QAction::triggered, this, [this](bool val){ui->previewWidget->setVisible(val);});
     connect(ui->gitWidget, &GitWidget::branchNameChanged, this, [this](const QString& name){branchButton->setText(name);});
+    connect(ui->refreshButton, &QPushButton::clicked, ui->webEngineView, &QWebEngineView::reload);
 
     MarkdownWebPage *page = new MarkdownWebPage(this);
     ui->webEngineView->setPage(page);

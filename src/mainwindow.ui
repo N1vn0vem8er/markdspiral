@@ -145,6 +145,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="homeButton">
+            <property name="toolTip">
+             <string>Orginal file</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -155,6 +158,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="backButton">
+            <property name="toolTip">
+             <string>Back</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -165,6 +171,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="forwardButton">
+            <property name="toolTip">
+             <string>Forward</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -175,6 +184,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="refreshButton">
+            <property name="toolTip">
+             <string>Refresh</string>
+            </property>
             <property name="text">
              <string/>
             </property>
