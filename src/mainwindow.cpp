@@ -88,6 +88,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->refreshButton, &QPushButton::clicked, ui->webEngineView, &QWebEngineView::reload);
     connect(ui->findButton, &QPushButton::clicked, this, &MainWindow::find);
     connect(ui->replaceButton, &QPushButton::clicked, this, &MainWindow::replace);
+    connect(ui->replaceAllButton, &QPushButton::clicked, this, &MainWindow::replaceAll);
 
     MarkdownWebPage *page = new MarkdownWebPage(this);
     ui->webEngineView->setPage(page);
@@ -571,16 +572,19 @@ void MainWindow::find()
 {
     Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
     if(editor)
-    {
         editor->find(ui->findLineEdit->text());
-    }
 }
 
 void MainWindow::replace()
 {
     Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
     if(editor)
-    {
         editor->replace(ui->findLineEdit->text(), ui->replaceLineEdit->text());
-    }
+}
+
+void MainWindow::replaceAll()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->replaceAll(ui->findLineEdit->text(), ui->replaceLineEdit->text());
 }

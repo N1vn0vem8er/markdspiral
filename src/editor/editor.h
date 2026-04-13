@@ -25,6 +25,7 @@ public:
     void setName(const QString &newName);
     void find(const QString& text);
     void replace(const QString& findText, const QString& replaceText);
+    void replaceAll(const QString& findText, const QString& replaceText);
     void clearSearchFormatting();
     void increaseFontSize();
     void decreaseFontSize();

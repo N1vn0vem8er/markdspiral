@@ -58,6 +58,7 @@ private slots:
     void fullScreen();
     void find();
     void replace();
+    void replaceAll();
 
 private:
     QMap<Editor*, QString> m_htmlCache;

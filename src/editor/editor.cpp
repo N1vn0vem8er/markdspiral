@@ -125,6 +125,21 @@ void Editor::replace(const QString &findText, const QString &replaceText)
     find(findText);
 }
 
+void Editor::replaceAll(const QString &findText, const QString &replaceText)
+{
+    if(findText.isEmpty() || findText == replaceText)
+        return;
+    QTextCursor cursor(document());
+    cursor.beginEditBlock();
+    while(!cursor.isNull() && !cursor.atEnd())
+    {
+        cursor = document()->find(findText, cursor);
+        if(!cursor.isNull())
+            cursor.insertText(replaceText);
+    }
+    cursor.endEditBlock();
+}
+
 void Editor::clearSearchFormatting()
 {
 
