@@ -86,6 +86,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionShow_Preview, &QAction::triggered, this, [this](bool val){ui->previewWidget->setVisible(val);});
     connect(ui->gitWidget, &GitWidget::branchNameChanged, this, [this](const QString& name){branchButton->setText(name);});
     connect(ui->refreshButton, &QPushButton::clicked, ui->webEngineView, &QWebEngineView::reload);
+    connect(ui->findButton, &QPushButton::clicked, this, &MainWindow::find);
+    connect(ui->replaceButton, &QPushButton::clicked, this, &MainWindow::replace);
 
     MarkdownWebPage *page = new MarkdownWebPage(this);
     ui->webEngineView->setPage(page);
@@ -563,4 +565,22 @@ void MainWindow::fullScreen()
         showNormal();
     else
         showFullScreen();
+}
+
+void MainWindow::find()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        editor->find(ui->findLineEdit->text());
+    }
+}
+
+void MainWindow::replace()
+{
+    Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        editor->replace(ui->findLineEdit->text(), ui->replaceLineEdit->text());
+    }
 }

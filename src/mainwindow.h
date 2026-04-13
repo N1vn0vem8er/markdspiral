@@ -56,6 +56,8 @@ private slots:
     void goBackInPreview();
     void goForwardInPreview();
     void fullScreen();
+    void find();
+    void replace();
 
 private:
     QMap<Editor*, QString> m_htmlCache;
