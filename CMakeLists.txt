@@ -53,6 +53,14 @@ install(TARGETS markdspiral
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/resources/markdspiral.svg"
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps"
+        )
+
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/resources/markdspiral.desktop"
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/applications"
+)
+
 qt_generate_deploy_app_script(
     TARGET markdspiral
     OUTPUT_SCRIPT deploy_script
