@@ -625,6 +625,9 @@
    <property name="checkable">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset theme="view-list-tree"/>
+   </property>
    <property name="text">
     <string>Show Files</string>
    </property>
