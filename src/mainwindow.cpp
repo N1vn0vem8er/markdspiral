@@ -133,6 +133,7 @@ Editor* MainWindow::addEditor(const QString& text, const QString& name, const QS
     connect(editor, &Editor::textChanged, this, &MainWindow::handleTextChanged);
     connect(this, &MainWindow::setLanguage, editor, &Editor::setLanguage);
     connect(ui->actionEnableSpellcheck, &QAction::triggered, editor, &Editor::setSpellCheckEnabled);
+    connect(editor, &Editor::fontSizeChanged, this, [this](int size){ui->statusbar->showMessage(tr("Font size: %1").arg(size), 5000);});
     ui->tabWidget->addTab(editor, name);
     ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
     return editor;

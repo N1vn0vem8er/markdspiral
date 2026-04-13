@@ -136,15 +136,18 @@ void Editor::increaseFontSize()
     f.setPointSize(f.pointSize() + 1);
     setFont(f);
     updateLineNumberWidth(0);
+    emit fontSizeChanged(f.pointSize());
 }
 
 void Editor::decreaseFontSize()
 {
     QFont f = font();
-    if (f.pointSize() > 4) {
+    if(f.pointSize() > 4)
+    {
         f.setPointSize(f.pointSize() - 1);
         setFont(f);
         updateLineNumberWidth(0);
+        emit fontSizeChanged(f.pointSize());
     }
 }
 
