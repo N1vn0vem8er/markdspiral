@@ -9,6 +9,7 @@ This project was made with:
 
 * **Qt 6**
 * **md4c**
+* **nuspell**
 * **Github markdown css**
 
 ## Build and Install
