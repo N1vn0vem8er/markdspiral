@@ -460,7 +460,8 @@ void MainWindow::showGitWidget()
 
 void MainWindow::openDir()
 {
-    const QString path = QFileDialog::getExistingDirectory(this, tr("Open"));
+    QSettings settings("markdspiral");
+    const QString path = QFileDialog::getExistingDirectory(this, tr("Open"), settings.value("lastOpenedDirPath", QDir::homePath()).toString());
     if(!path.isEmpty())
     {
         ui->gitWidget->setRepositoryPath(path);
@@ -471,6 +472,7 @@ void MainWindow::openDir()
         }
         ui->treeWidget->open(path);
         openedDir = path;
+        settings.setValue("lastOpenedDirPath", path);
     }
 }
 
