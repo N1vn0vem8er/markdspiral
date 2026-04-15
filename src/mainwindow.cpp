@@ -262,7 +262,8 @@ void MainWindow::saveFile()
                 editor->setSaved(true);
                 ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), file.fileName());
                 ui->statusbar->showMessage(tr("Saved: %1").arg(path), 5000);
-                QSettings("markdspiral").setValue("lastOpenedFilePath", QFileInfo(path).dir().absolutePath());
+                QSettings settings("markdspiral");
+                settings.setValue("lastOpenedFilePath", QFileInfo(path).dir().absolutePath());
             }
         }
         else
@@ -276,8 +277,9 @@ void MainWindow::saveFileAs()
     if(editor)
     {
         QString openPath;
+        QSettings settings("markdspiral");
         if(!openedDir.isEmpty()) openPath = openedDir;
-        else openPath = QSettings("markdspiral").value("lastOpenedFilePath", QDir::homePath()).toString();
+        else openPath = settings.value("lastOpenedFilePath", QDir::homePath()).toString();
         const QString path = QFileDialog::getSaveFileName(this, tr("Save As"), openPath);
         if(!path.isEmpty())
         {
@@ -290,7 +292,7 @@ void MainWindow::saveFileAs()
                 editor->setPath(path);
                 ui->statusbar->showMessage(tr("Saved: %1").arg(path), 5000);
                 ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), QFileInfo(path).fileName());
-                QSettings("markdspiral").setValue("lastOpenedFilePath", QFileInfo(path).dir().absolutePath());
+                settings.setValue("lastOpenedFilePath", QFileInfo(path).dir().absolutePath());
             }
         }
     }
@@ -478,6 +480,8 @@ void MainWindow::openTextFile(const QString &path)
     if(file.open(QIODevice::ReadOnly))
     {
         addEditor(file.readAll(), file.fileName(), path);
+        QSettings settings("markdspiral");
+        settings.setValue("lastOpenedFilePath", QFileInfo(path).dir().absolutePath());
     }
 }
 
