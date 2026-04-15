@@ -59,6 +59,7 @@ private slots:
     void find();
     void replace();
     void replaceAll();
+    void closeDir();
 
 private:
     QMap<Editor*, QString> m_htmlCache;

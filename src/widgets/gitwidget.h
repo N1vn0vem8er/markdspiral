@@ -30,6 +30,7 @@ public:
     void gitFileDiff(const QString& filePath);
     void gitAddFile(const QString& filePath);
     void openGitCommit();
+    void closeRepo();
 
 public slots:
     void setBranch(const QString& name);

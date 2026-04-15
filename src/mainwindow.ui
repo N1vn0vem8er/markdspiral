@@ -284,6 +284,7 @@
     <addaction name="actionClose"/>
     <addaction name="actionClose_All"/>
     <addaction name="actionClose_All_But_This"/>
+    <addaction name="actionClose_Dir"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -580,6 +581,9 @@
    <property name="text">
     <string>Open Dir</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+O</string>
+   </property>
   </action>
   <action name="actionlanguage">
    <property name="text">
@@ -718,6 +722,14 @@
    </property>
    <property name="text">
     <string>Show Preview</string>
+   </property>
+  </action>
+  <action name="actionClose_Dir">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ListRemove"/>
+   </property>
+   <property name="text">
+    <string>Close Dir</string>
    </property>
   </action>
  </widget>

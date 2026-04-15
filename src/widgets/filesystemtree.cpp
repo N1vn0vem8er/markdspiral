@@ -38,8 +38,17 @@ void FileSystemTree::open(const QString& path)
 
 void FileSystemTree::setDirectory(const QString& path)
 {
-    if(model != NULL)
+    if(model)
         setRootIndex(model->index(path));
+}
+
+void FileSystemTree::closeDir()
+{
+    if(model)
+    {
+        model->deleteLater();
+        model = nullptr;
+    }
 }
 
 QString FileSystemTree::getSelectedItem(const QModelIndex& index) const

@@ -89,6 +89,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->findButton, &QPushButton::clicked, this, &MainWindow::find);
     connect(ui->replaceButton, &QPushButton::clicked, this, &MainWindow::replace);
     connect(ui->replaceAllButton, &QPushButton::clicked, this, &MainWindow::replaceAll);
+    connect(ui->actionClose_Dir, &QAction::triggered, this, &MainWindow::closeDir);
 
     MarkdownWebPage *page = new MarkdownWebPage(this);
     ui->webEngineView->setPage(page);
@@ -602,4 +603,11 @@ void MainWindow::replaceAll()
     Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
     if(editor)
         editor->replaceAll(ui->findLineEdit->text(), ui->replaceLineEdit->text());
+}
+
+void MainWindow::closeDir()
+{
+    ui->treeWidget->closeDir();
+    ui->gitWidget->closeRepo();
+    openedDir.clear();
 }

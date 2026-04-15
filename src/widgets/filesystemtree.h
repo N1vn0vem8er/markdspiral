@@ -20,6 +20,7 @@ public:
     };
     void open(const QString &path);
     void setDirectory(const QString &path);
+    void closeDir();
     QString getSelectedItem(const QModelIndex &index) const;
     bool getHasGitRepository() const;
     void setHasGitRepository(bool newHasGitRepository);

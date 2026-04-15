@@ -295,6 +295,34 @@ void GitWidget::openGitCommit()
     emit addTab(widget, tr("Git Commit"));
 }
 
+void GitWidget::closeRepo()
+{
+    repoPath.clear();
+    if(addedModel)
+    {
+        addedModel->deleteLater();
+        addedModel = nullptr;
+    }
+    if(changedModel)
+    {
+        changedModel->deleteLater();
+        changedModel = nullptr;
+    }
+    if(untrackedModel)
+    {
+        untrackedModel->deleteLater();
+        untrackedModel = nullptr;
+    }
+    untrackedFiles.clear();
+    modifiedInWorkingDirectory.clear();
+    modifiedInIndex.clear();
+    addedInIndex.clear();
+    addedInWorkingDirectory.clear();
+    deletedFromWorkingDirectory.clear();
+    deletedFromIndex.clear();
+    setVisibility(false);
+}
+
 void GitWidget::gitCommit(const QString &title, const QString &description)
 {
     QProcess* process = new QProcess(this);
