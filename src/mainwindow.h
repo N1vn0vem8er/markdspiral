@@ -74,6 +74,7 @@ private:
     QStringList previewHistory;
     int previewHistoryIndex {-1};
     QPushButton* branchButton {nullptr};
+    QString openedDir;
 
 signals:
     void setLanguage(const QString& code);

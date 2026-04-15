@@ -238,7 +238,10 @@ void MainWindow::handleCloseTab(int index)
 
 void MainWindow::openFile()
 {
-    const QString path = QFileDialog::getOpenFileName(this, tr("Open"), QDir::homePath());
+    QString openPath;
+    if(!openedDir.isEmpty()) openPath = openedDir;
+    else openPath = QSettings("markdspiral").value("lastOpenedFilePath", QDir::homePath()).toString();
+    const QString path = QFileDialog::getOpenFileName(this, tr("Open"), openPath);
     if(!path.isEmpty())
         openTextFile(path);
 }
@@ -259,6 +262,7 @@ void MainWindow::saveFile()
                 editor->setSaved(true);
                 ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), file.fileName());
                 ui->statusbar->showMessage(tr("Saved: %1").arg(path), 5000);
+                QSettings("markdspiral").setValue("lastOpenedFilePath", QFileInfo(path).dir().absolutePath());
             }
         }
         else
@@ -271,7 +275,10 @@ void MainWindow::saveFileAs()
     Editor* editor = qobject_cast<Editor*>(ui->tabWidget->currentWidget());
     if(editor)
     {
-        const QString path = QFileDialog::getSaveFileName(this, tr("Save As"), QDir::homePath());
+        QString openPath;
+        if(!openedDir.isEmpty()) openPath = openedDir;
+        else openPath = QSettings("markdspiral").value("lastOpenedFilePath", QDir::homePath()).toString();
+        const QString path = QFileDialog::getSaveFileName(this, tr("Save As"), openPath);
         if(!path.isEmpty())
         {
             QFile file(path);
@@ -283,6 +290,7 @@ void MainWindow::saveFileAs()
                 editor->setPath(path);
                 ui->statusbar->showMessage(tr("Saved: %1").arg(path), 5000);
                 ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), QFileInfo(path).fileName());
+                QSettings("markdspiral").setValue("lastOpenedFilePath", QFileInfo(path).dir().absolutePath());
             }
         }
     }
@@ -460,6 +468,7 @@ void MainWindow::openDir()
             branchButton->setVisible(true);
         }
         ui->treeWidget->open(path);
+        openedDir = path;
     }
 }
 
