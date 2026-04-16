@@ -114,6 +114,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     QSettings settings("markdspiral");
     languageLabel->setText(settings.value("spellcheck.language").toString());
+    ui->actionEnableSpellcheck->setChecked(settings.value("spellcheck.enabled").toBool());
     restoreGeometry(settings.value("geometry").toByteArray());
     restoreState(settings.value("state").toByteArray());
     ui->stackedWidget->setVisible(settings.value("leftWidget.visible", false).toBool());
@@ -177,6 +178,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     settings.setValue("leftWidget.visible", ui->stackedWidget->isVisible());
     settings.setValue("leftWidget.index", ui->stackedWidget->currentIndex());
     settings.setValue("previewWidget.visible", ui->previewWidget->isVisible());
+    settings.setValue("spellcheck.enabled", ui->actionEnableSpellcheck->isChecked());
     QMainWindow::closeEvent(event);
 }
 
