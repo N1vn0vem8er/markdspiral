@@ -611,5 +611,6 @@ void MainWindow::closeDir()
 {
     ui->treeWidget->closeDir();
     ui->gitWidget->closeRepo();
+    branchButton->setVisible(false);
     openedDir.clear();
 }
