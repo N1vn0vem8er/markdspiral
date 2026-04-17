@@ -557,7 +557,7 @@
   </action>
   <action name="actionSet_font">
    <property name="icon">
-    <iconset theme="font"/>
+    <iconset theme="dialog-text-and-font"/>
    </property>
    <property name="text">
     <string>Set font</string>
@@ -719,6 +719,9 @@
    </property>
    <property name="checked">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="document-preview"/>
    </property>
    <property name="text">
     <string>Show Preview</string>
