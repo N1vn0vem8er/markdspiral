@@ -126,6 +126,7 @@ void GitWidget::setVisibility(bool val)
 
 void GitWidget::readStatus()
 {
+    if(!hasRepository()) return;
     QProcess process;
     process.setWorkingDirectory(repoPath);
     process.startCommand("git status -s");
@@ -225,6 +226,7 @@ QList<QPair<QString, QPair<QString, QString>>> GitWidget::readDiff() const
 
 void GitWidget::applyDiff(QList<GitFileStatus>& files, const QList<QPair<QString, QPair<QString, QString>>>& diffs) const
 {
+    if(!hasRepository()) return;
     for(auto& i : files)
     {
         const auto tmp = std::find_if(diffs.begin(), diffs.end(), [&i](const auto& item){return i.path == item.first;});
@@ -278,6 +280,7 @@ void GitWidget::openUntracked(const QModelIndex &index)
 
 void GitWidget::openGitCommit()
 {
+    if(!hasRepository()) return;
     QWidget* widget = new QWidget(this);
     QVBoxLayout* mainLayout = new QVBoxLayout(widget);
     QLineEdit* title = new QLineEdit(widget);
@@ -297,6 +300,7 @@ void GitWidget::openGitCommit()
 
 void GitWidget::closeRepo()
 {
+    if(!hasRepository()) return;
     repoPath.clear();
     if(addedModel)
     {
@@ -325,6 +329,7 @@ void GitWidget::closeRepo()
 
 void GitWidget::gitCommit(const QString &title, const QString &description)
 {
+    if(!hasRepository()) return;
     QProcess* process = new QProcess(this);
     process->setWorkingDirectory(repoPath);
     process->setProcessChannelMode(QProcess::MergedChannels);
@@ -340,6 +345,7 @@ void GitWidget::gitCommit(const QString &title, const QString &description)
 
 void GitWidget::gitPush()
 {
+    if(!hasRepository()) return;
     QProcess* process = new QProcess(this);
     process->setWorkingDirectory(repoPath);
     process->setProcessChannelMode(QProcess::MergedChannels);
@@ -355,6 +361,7 @@ void GitWidget::gitPush()
 
 void GitWidget::gitPull()
 {
+    if(!hasRepository()) return;
     QProcess* process = new QProcess(this);
     process->setWorkingDirectory(repoPath);
     process->setProcessChannelMode(QProcess::MergedChannels);
@@ -370,6 +377,7 @@ void GitWidget::gitPull()
 
 void GitWidget::gitStatus()
 {
+    if(!hasRepository()) return;
     QProcess* process = new QProcess(this);
     process->setWorkingDirectory(repoPath);
     process->setProcessChannelMode(QProcess::MergedChannels);
@@ -385,6 +393,7 @@ void GitWidget::gitStatus()
 
 void GitWidget::gitLog()
 {
+    if(!hasRepository()) return;
     QProcess* process = new QProcess(this);
     process->setWorkingDirectory(repoPath);
     process->setProcessChannelMode(QProcess::MergedChannels);
@@ -400,6 +409,7 @@ void GitWidget::gitLog()
 
 void GitWidget::gitFetch()
 {
+    if(!hasRepository()) return;
     QProcess* process = new QProcess(this);
     process->setWorkingDirectory(repoPath);
     process->setProcessChannelMode(QProcess::MergedChannels);
@@ -422,6 +432,7 @@ QString GitWidget::getRepoPath() const
 
 QString GitWidget::getBranchName() const
 {
+    if(!hasRepository()) return {};
     QProcess process;
     process.setWorkingDirectory(repoPath);
     process.startCommand("git rev-parse --abbrev-ref HEAD");
@@ -435,6 +446,7 @@ QString GitWidget::getBranchName() const
 
 QStringList GitWidget::getBranches() const
 {
+    if(!hasRepository()) return {};
     QProcess process;
     process.setWorkingDirectory(repoPath);
     process.startCommand("git branch --format='%(refname:short)'");
@@ -462,6 +474,7 @@ QStringList GitWidget::getBranches() const
 
 void GitWidget::gitFileDiff(const QString &filePath)
 {
+    if(!hasRepository()) return;
     QProcess* process = new QProcess(this);
     process->setWorkingDirectory(repoPath);
     ProcessManager::getInstance()->registerProcess(process, tr("Git diff"));
@@ -477,6 +490,7 @@ void GitWidget::gitFileDiff(const QString &filePath)
 
 void GitWidget::gitAddFile(const QString &filePath)
 {
+    if(!hasRepository()) return;
     QProcess* process = new QProcess(this);
     process->setWorkingDirectory(repoPath);
     ProcessManager::getInstance()->registerProcess(process, tr("Git Add"));
